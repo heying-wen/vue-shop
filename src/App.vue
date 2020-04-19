@@ -15,4 +15,5 @@ export default {}
 <style lang="scss">
 @import "./assets/scss/reset";
 @import "./assets/scss/border";
+@import "./assets/scss/iconfont";
 </style>
