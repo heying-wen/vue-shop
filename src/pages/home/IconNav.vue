@@ -38,7 +38,7 @@ export default {
     .nav-item{
         width: 25%;
         height: 50%;
-        @include layout($direction:column);
+        @include layout-flex($direction:column);
         color: $color-B;
         font-size: .26rem;
     }
