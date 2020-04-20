@@ -6,11 +6,11 @@
     </div>
     <div class="goods-list-container" ref="wrapper">
         <div class="goods-list" ref="recommend" v-if="show">
-            <div class="goods-item" v-for="item of recommendList" :key="item.id">
+            <div class="goods-item border" v-for="item of recommendList" :key="item.id">
                 <img :src="item.img" class="goods-img">
                 <div class="goods-fote">
                     <div class="goods-name">{{item.name}}</div>
-                    <div class="goods-price">{{item.price}}</div>
+                    <div class="goods-price">{{item.price|formatPrice}}</div>
                 </div>
             </div>
         </div>
@@ -20,6 +20,7 @@
 
 <script>
 import BScroll from 'better-scroll'
+import { formatPrice } from '@/utils/function'
 export default {
     props:{
         recommendList:Array
@@ -30,12 +31,13 @@ export default {
         }
     },
     watch:{
-
-    },
-    mounted (){
-        this.$nextTick(() =>{
-            this.initScroll()
-        })
+        recommendList(newList){
+            if(newList.length>0){
+                this.$nextTick(() =>{
+                    this.initScroll()
+                })
+            }
+        }
     },
     
     data(){
@@ -48,6 +50,11 @@ export default {
                 scrollY: false,
                 eventPassthrough: 'vertical' // 忽略竖直方向的滚动
             }
+        }
+    },
+    filters:{
+        formatPrice(price){
+            return formatPrice(price)
         }
     },
     methods:{
@@ -107,7 +114,7 @@ export default {
                     height: 0;
                     flex: 1;
                     width: 90%;
-                    margin-bottom: .2rem;
+                    margin: 0.1rem 0.2rem;
                     @include layout-flex (column ,space-between,flex-start);
                     .goods-name{
                         width: 100%;
@@ -118,6 +125,12 @@ export default {
                         overflow: hidden;
                         white-space: nowrap;
                         text-overflow: ellipsis;
+                        font-weight: 600;
+                    }
+                    .goods-price{
+                        font-weight: 600;
+                        font-size: .26rem;
+                        color:$color-A;
                     }
                 }
             }
