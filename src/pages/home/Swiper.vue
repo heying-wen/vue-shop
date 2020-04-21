@@ -1,11 +1,11 @@
 <template>
 <swiper :options="swiperOptions" class="swiper-container" v-if="show">
-    <swiper-slide v-for="item of swiperList" :key="item">
-      <img :data-src="item" class="swiper-lazy swiper-img">
-      <div class="swiper-lazy-preloader"></div>
-    </swiper-slide>
-    <div class="swiper-pagination" slot="pagination"></div>
-  </swiper>
+  <swiper-slide v-for="item of swiperList" :key="item">
+    <img :data-src="item" class="swiper-lazy swiper-img">
+    <div class="swiper-lazy-preloader"></div>
+  </swiper-slide>
+  <div class="swiper-pagination" slot="pagination"></div>
+</swiper>
 </template>
 
 <script>

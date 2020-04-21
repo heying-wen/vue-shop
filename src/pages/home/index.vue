@@ -5,6 +5,9 @@
     <home-swiper :swiperList="swiperList"></home-swiper>
     <icon-nav :navList="navList"></icon-nav>
     <recommend :recommendList="recommendList"></recommend>
+    <sales :salesList="salesList"></sales>
+    <news-goods :newsGoodsList="newsGoodsList"></news-goods>
+    <goods-list :goodsList="recommendList"></goods-list>
 </div>
 </template>
 <script>
@@ -14,6 +17,9 @@ import Search from '@/components/Search'
 import HomeSwiper from './Swiper'
 import IconNav from './IconNav'
 import Recommend from './Recommend'
+import Sales from './Sales'
+import NewsGoods from './NewsGoods'
+import GoodsList from './GoodsList'
 
 export default {
    components:{
@@ -21,19 +27,30 @@ export default {
        Search,
        HomeSwiper,
        IconNav,
-       Recommend
+       Recommend,
+       Sales,
+       NewsGoods,
+       GoodsList
     },
     data(){
        return {
            swiperList:[],
            navList:[],
-           recommendList:[]
+           recommendList:[],
+           salesList:[],
+           newsGoodsList:[],
+           goodsList:[],
+           page:1, //为你推荐页码
+           count:8 //为你推荐每次获取的数量
         }
     },
     mounted(){
         this.getSwiper(),
         this.getNavList(),
-        this.getRecommend()
+        this.getRecommend(),
+        this.getSales(),
+        this.getNewsGoods(),
+        this.getGoodsList()
     },
     methods:{
         async getSwiper () {
@@ -45,7 +62,21 @@ export default {
         },
         async getRecommend(){
             this.recommendList = await this.axios.get('api/goods/recommend?type=1')
-            console.log(this.recommendList)
+        },
+        async getSales(){
+            this.salesList = await this.axios.get('api/goods/sales?type=1')
+        },
+        async getNewsGoods(){
+            this.newsGoodsList = await this.axios.get('api/goods/new?type=1')
+        },
+        async getGoodsList(){
+            const {goods,total} = await this.axios.get('api/goods_list?type=1',{
+                params: {
+                    page: this.page,
+                    count: this.count
+                }
+            })
+            console.log(goods,total)
         }
     }
 }

@@ -1,34 +1,31 @@
 <template>
-<div class="recommend-container">
-    <div class="title">
-        <span>精品推荐</span>
-        <span class="iconfont more">更多 &#xe60b;</span>
-    </div>
-    <div class="goods-list-container" ref="wrapper">
-        <div class="goods-list" ref="recommend" v-if="show">
-            <div class="goods-item border" v-for="item of recommendList" :key="item.id">
-                <img :src="item.img" class="goods-img">
-                <div class="goods-fote">
-                    <div class="goods-name">{{item.name}}</div>
-                    <div class="goods-price">{{item.price|formatPrice}}</div>
+<container title="精品推荐" morePath="/goods-list">
+    <template v-slot:content>
+        <div class="goods-list-container" ref="wrapper">
+            <div class="goods-list" ref="recommend">
+                <div class="goods-item border" v-for="item of recommendList" :key="item.id">
+                    <img :src="item.img" class="goods-img">
+                    <div class="goods-fote">
+                        <div class="goods-name">{{item.name}}</div>
+                        <div class="goods-price">￥ {{item.price|formatPrice}}</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </template>
+</container>
 </template>
 
 <script>
 import BScroll from 'better-scroll'
-import { formatPrice } from '@/utils/function'
+import { filters } from '@/utils/mixins'
+import Container from './Container'
 export default {
     props:{
         recommendList:Array
     },
-    computed:{
-        show (){
-        return !!this.recommendList.length
-        }
+    components:{
+        Container
     },
     watch:{
         recommendList(newList){
@@ -39,7 +36,6 @@ export default {
             }
         }
     },
-    
     data(){
         return {
             scroll:null,
@@ -52,11 +48,7 @@ export default {
             }
         }
     },
-    filters:{
-        formatPrice(price){
-            return formatPrice(price)
-        }
-    },
+    mixins:[filters],
     methods:{
         initScroll(){
             const goodsListWidth = this.recommendList.length * 2.2
@@ -73,69 +65,52 @@ export default {
 
 <style lang="scss" scopeds>
 @import "~@/assets/scss/global";
-.recommend-container{
-    @include container-layout (4.1rem);
-    .title{
-        width:100%;
-        @include layout-flex( $justify:space-between);
-        height: .4rem;
-        border-left: .08rem solid $color-A;
-        text-indent: .2rem;
-        box-sizing: border-box;
-        font-weight: 600;
-        font-size: .32rem;
-        color: $color-B;
-        .more{
-            font-weight: 400;
-            color: $color-C;
-            font-size: .24rem;
-        }
-    }
-    .goods-list-container{
-        width: 100%;
-        height: 3.2rem;
-        margin-top: .2rem;
-        overflow: hidden;
-        .goods-list{
-            display: flex;
-            .goods-item{
-                width: 2rem;
-                height: 100%;
-                margin-right: .2rem;
-                border-radius: .1rem;
-                box-sizing: border-box;
-                @include layout-flex (column);
-                overflow: hidden;
-                .goods-img{
+.goods-list-container{
+    width: 100%;
+    height: 3.2rem;
+    margin-top: .2rem;
+    overflow: hidden;
+    .goods-list{
+        display: flex;
+        height: 100%;
+        .goods-item{
+            width: 2rem;
+            height: 100%;
+            margin-right: .2rem;
+            border-radius: .1rem;
+            box-sizing: border-box;
+            @include layout-flex (column);
+            overflow: hidden;
+            .goods-img{
+                width: 100%;
+                height: 2.1rem;
+            }
+            .goods-fote{
+                height: 0;
+                flex: 1;
+                width: 90%;
+                margin: 0.2rem;
+                @include layout-flex (column,space-between,flex-start);
+                .goods-name{
                     width: 100%;
-                    height: 2.1rem;
+                    height: .3rem;
+                    line-height: .3rem;
+                    font-size: .2rem;
+                    color:$color-C;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    font-weight: 600;
                 }
-                .goods-fote{
-                    height: 0;
-                    flex: 1;
-                    width: 90%;
-                    margin: 0.1rem 0.2rem;
-                    @include layout-flex (column ,space-between,flex-start);
-                    .goods-name{
-                        width: 100%;
-                        height: .3rem;
-                        line-height: .3rem;
-                        font-size: .2rem;
-                        color:$color-C;
-                        overflow: hidden;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
-                        font-weight: 600;
-                    }
-                    .goods-price{
-                        font-weight: 600;
-                        font-size: .26rem;
-                        color:$color-A;
-                    }
+                .goods-price{
+                    font-weight: 600;
+                    font-size: .26rem;
+                    color:$color-A;
                 }
             }
         }
-        
     }
+    
 }
+
 </style>
