@@ -20,6 +20,7 @@ import Recommend from './Recommend'
 import Sales from './Sales'
 import NewsGoods from './NewsGoods'
 import GoodsList from './GoodsList'
+import { Storage } from '@/utils/storage'
 
 export default {
    components:{
@@ -41,7 +42,8 @@ export default {
            newsGoodsList:[],
            goodsList:[],
            page:1, //为你推荐页码
-           count:8 //为你推荐每次获取的数量
+           count:8, //为你推荐每次获取的数量
+           totalPage:0,//为你推荐总页数
         }
     },
     mounted(){
@@ -54,11 +56,25 @@ export default {
     },
     methods:{
         async getSwiper () {
-            const res = await this.axios.get('api/swiper?type=1')
-            this.swiperList = res.map(item => item.img)
+            const swiper = Storage.getItem('swiper')
+            if(swiper){
+                this.swiperList = swiper
+            }else{
+                const res = await this.axios.get('api/swiper?type=1')
+                const swiperList = res.map(item => item.img)
+                this.swiperList = swiperList
+                Storage.setItem('swiper',swiperList)
+            }
         },
         async getNavList(){
-            this.navList = await this.axios.get('api/navigate?type=1')
+            const getNav = Storage.getItem('getNav')
+            if(getNav){
+                this.navList = getNav
+            }else{
+                const navList = await this.axios.get('api/navigate?type=1')
+                this.navList = navList
+                Storage.setItem('getNav',navList)
+            }
         },
         async getRecommend(){
             this.recommendList = await this.axios.get('api/goods/recommend?type=1')
@@ -76,13 +92,17 @@ export default {
                     count: this.count
                 }
             })
+            this.goodsList = this.goodsList.concat(goods)
+            if(this.page === 1){
+                this.totalPage = Math.ceil(total/this.count)
+            }
             console.log(goods,total)
         }
     }
 }
 </script>
 
-<style lang="scss" scopeds>
+<style lang="scss" scoped>
 @import "~@/assets/scss/global";
 .page{
     width: 100%;

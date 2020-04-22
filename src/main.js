@@ -4,6 +4,7 @@ import VueAxios from 'vue-axios'
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import VueLazyload from 'vue-lazyload'
 
 axios.defaults.baseURL = '/api/'
 axios.defaults.timeout = 8000
@@ -22,6 +23,12 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(error);
 });
 Vue.use(VueAxios,axios)
+
+//图片懒加载
+Vue.use(VueLazyload,{
+  loading:"./images/loading-svg/loading-spinning-bubbles.svg"
+})
+
 Vue.config.productionTip = false
 
 new Vue({

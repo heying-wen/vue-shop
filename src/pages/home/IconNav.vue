@@ -25,7 +25,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scopeds>
+<style lang="scss" scoped>
 @import "~@/assets/scss/global";
 .navigate-container{
     width: 100%;

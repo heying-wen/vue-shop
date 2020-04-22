@@ -23,7 +23,7 @@ export default {
     }
 }
 </script>
-<style lang="scss" scopeds>
+<style lang="scss" scoped>
 @import "~@/assets/scss/global";
 .container{
     @include container-layout ();

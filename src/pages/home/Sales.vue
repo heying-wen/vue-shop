@@ -1,10 +1,10 @@
 <template>
     <container title="特惠清仓" v-if="show" morePath="/goods-list">
         <template v-slot:content v-if="show">
-            <swiper :options="swiperOptions" class="swiper-container" v-if="show">
-                <swiper-slide v-for="(item,index) of pages" :key="index" class="swiper-page">
-                    <div class="swiper-goods border" v-for="val of item" :key="val.id">
-                        <img :src="val.img" class="goods-img">
+            <swiper :options="swiperOptions" class="swipers-container" v-if="show">
+                <swiper-slide v-for="(item,index) of pages" :key="index" class="swipers-page">
+                    <div class="swipers-goods border" v-for="val of item" :key="val.id">
+                        <img v-lazy="val.img" class="goods-img">
                         <div class="goods-fote">
                             <div class="goods-name">{{val.name}}</div>
                             <div class="goods-price">￥{{val.price|formatPrice}}</div>
@@ -47,7 +47,6 @@ export default {
                 }
                 pages[page].push(val)
             })
-            console.log(pages)
             this.pages = pages
         }
     },
@@ -64,18 +63,17 @@ export default {
 }
 </script>
 
-<style lang="scss" scopeds>
+<style lang="scss" scoped>
 @import "~@/assets/scss/global";
-.swiper-container{
+.swipers-container{
     width: 100%;
     height: 4.4rem;
     margin-top: .2rem;
-    .swiper-page{
+    .swipers-page{
         width: 100%;
         height: 4rem;
         @include layout-flex (row,space-between,flex-start);
-        
-        .swiper-goods{
+        .swipers-goods{
             width: 3.44rem;
             height: 100%;
             @include layout-flex(column);

@@ -3,7 +3,7 @@
     <template v-slot:content>
         <div class="goods-list" >
             <div class="goods-item border" v-for="item of list" :key="item.id">
-                <img :src="item.img" class="goods-img">
+                <img v-lazy="item.img" class="goods-img">
                 <div class="goods-fote">
                     <div class="goods-name">{{item.name}}</div>
                     <div class="goods-price">￥ {{item.price|formatPrice}}</div>
@@ -39,7 +39,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scopeds>
+<style lang="scss" scoped>
 @import "~@/assets/scss/global";
 .goods-list{
     width: 100%;

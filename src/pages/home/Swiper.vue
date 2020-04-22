@@ -20,13 +20,13 @@ export default {
       return !!this.swiperList.length
     }
   },
-  
   data(){
     return {
       swiperOptions:{
         pagination:{
           el: '.swiper-pagination'
         },
+        autoplay:true,
         loop : true,
         lazy : {
           loadPrevNext:true,
@@ -40,7 +40,7 @@ export default {
   },
 }
 </script>
-<style lang="scss" scopeds>
+<style lang="scss" scoped>
 @import "~@/assets/scss/global";
 .swiper-container{
   width: 100%;
