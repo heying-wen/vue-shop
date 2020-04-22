@@ -7,11 +7,13 @@
     <recommend :recommendList="recommendList"></recommend>
     <sales :salesList="salesList"></sales>
     <news-goods :newsGoodsList="newsGoodsList"></news-goods>
-    <goods-list :goodsList="recommendList"></goods-list>
+    <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="50">
+        <goods-list :goodsList="goodsList"></goods-list>
+    </div>
 </div>
 </template>
 <script>
-
+import infiniteScroll from 'vue-infinite-scroll'
 import CommonHeader from '@/components/Header';
 import Search from '@/components/Search'
 import HomeSwiper from './Swiper'
@@ -23,6 +25,7 @@ import GoodsList from './GoodsList'
 import { Storage } from '@/utils/storage'
 
 export default {
+    directives: {infiniteScroll},
    components:{
        CommonHeader,
        Search,
@@ -44,6 +47,7 @@ export default {
            page:1, //为你推荐页码
            count:8, //为你推荐每次获取的数量
            totalPage:0,//为你推荐总页数
+           busy:false,
         }
     },
     mounted(){
@@ -96,7 +100,16 @@ export default {
             if(this.page === 1){
                 this.totalPage = Math.ceil(total/this.count)
             }
+            this.page++
             console.log(goods,total)
+        },
+        async loadMore(){
+            this.busy = true
+            if(this.page <= this.totalPage || this.totalPage === 0){
+                await this.getGoodsList()
+                this.busy =false
+            }
+            
         }
     }
 }
