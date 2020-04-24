@@ -20,13 +20,17 @@ export default {
 @import "~@/assets/scss/global";
 .search{
     width:100%;
-    height: .9rem;
+    height: $Search-H;
     padding: 0 .2rem;
     box-sizing: border-box;
     background-color: $color-A;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    top: $Search-H;
+    left: 0;
+    z-index: 99;
     .search-bac{
         height: .6rem;
         width: 100%;

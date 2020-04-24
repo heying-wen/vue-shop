@@ -39,7 +39,7 @@ export default {
     width:100%;
     padding: 0 .2rem;
     box-sizing: border-box;
-    height: .88rem;
+    height: $Header-H;
     background-color:$color-A;
     font-size:0.36rem;
     color: #fff;
@@ -47,6 +47,10 @@ export default {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
     .back{
         display: block;
         width: 1rem;

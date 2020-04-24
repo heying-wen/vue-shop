@@ -1,6 +1,6 @@
 <template>
 <div class="category-container">
-    <div v-for="item of content" :key="item.cat_id" :class="{active:item.cat_id === catId}" class="catepory-item">
+    <div v-for="item of content" :key="item.cat_id" :class="{active:item.cat_id === catId}" class="catepory-item" @click="changeCategory(item.cat_id)">
         <div class="catepory-name">{{item.cat_name}}</div>
     </div>
 </div>
@@ -19,6 +19,12 @@ export default {
         return {
             catId : 0
         }
+    },
+    methods:{
+        changeCategory(catId){
+            this.catId = catId
+            this.$emit('change',catId)
+        }
     }
 }
 </script>
@@ -34,13 +40,19 @@ export default {
         box-sizing: border-box;
         color: $color-C;
         font-size: .32rem;
+        @include layout-flex;
+        .catepory-name{
+            width: 100%;
+            height: 100%;
+            @include layout-flex;
+            border-left: 0.08rem solid transparent;
+            box-sizing: border-box;
+        }
         &.active{
             background: $color-F;
             .catepory-name{
-                width: 100%;
-                height: 100%;
-                @include layout-flex;
                 border-left: 0.08rem solid $color-A;
+                box-sizing: border-box;
             }
         }
     }

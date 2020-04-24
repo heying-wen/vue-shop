@@ -27,7 +27,7 @@ export default {}
 @import "~@/assets/scss/global";
 .footer-container{
     width: 100%;
-    height: 1.3rem;
+    height: $Footer-H;
     @include layout-flex;
     background:  $color-F;
     position: fixed;

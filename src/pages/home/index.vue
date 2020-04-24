@@ -11,13 +11,11 @@
         <goods-list :goodsList="goodsList"></goods-list>
     </div>
     <common-footer></common-footer>
-    <Loading :show="showLoading"></Loading>
 </div>
 </template>
 <script>
 
 import infiniteScroll from 'vue-infinite-scroll'
-import Loading from '@/components/Loading'
 import CommonHeader from '@/components/Header'
 import CommonFooter from '@/components/Footer'
 import Search from '@/components/Search'
@@ -32,7 +30,6 @@ import { Storage } from '@/utils/storage'
 export default {
     directives: {infiniteScroll},
     components:{
-        Loading,
         CommonHeader,
         CommonFooter,
         Search,
@@ -56,20 +53,19 @@ export default {
            totalPage:0,//为你推荐总页数
            busy:false,
            scrollDistance:0,
-           showLoading:false,
         }
     },
     async mounted(){
         const footerHeight = document.querySelector('.footer-container').offsetHeight
         this.$refs.page.style.paddingBottom = footerHeight +'px'
         this.scrollDistance = footerHeight
-        this.showLoading = true
+        this.$showLoading()
         await this.getSwiper()
         await this.getNavList()
         await this.getRecommend()
         await this.getSales()
         await this.getNewsGoods()
-        this.showLoading = false
+        this.$hideLoading()
     },
     methods:{
         async getSwiper () {
@@ -132,5 +128,6 @@ export default {
     width: 100%;
     min-height: 100%;
     background: $color-E;
+    margin-top: $Header-H+$Search-H;
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
 <div class="navigate-container">
-    <div v-for="item of list" :key="item.id" class="nav-item">
+    <router-link tag="div" :to="'/goods-liat?cname='+item.name" v-for="item of list" :key="item.id" class="nav-item">
         <img :src="item.img" class="nav-img">
         <span>{{item.name}}</span>
-    </div>
+    </router-link>
 </div>
 </template>
 
