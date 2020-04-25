@@ -7,6 +7,7 @@
                 <div class="good-fote">
                     <div class="good-name">{{item.name}}</div>
                     <div class="good-price">￥ {{item.price|formatPrice}}</div>
+                    <cart-btn  :goods="item"></cart-btn>
                 </div>
             </div>
         </div>
@@ -17,12 +18,14 @@
 <script>
 import Container from './Container'
 import { filters } from '@/utils/mixins'
+import CartBtn from '@/components/CartBtn'
 export default {
     props:{
         goodsList:Array
     },
     components:{
-        Container
+        Container,
+        CartBtn
     },
     mixins:[filters],
 }
@@ -43,6 +46,8 @@ export default {
         box-sizing: border-box;
         @include layout-flex (column);
         overflow: hidden;
+        position: relative;
+        margin-bottom: .2rem;
         .good-img{
             width: 100%;
             height: 2.66rem;
@@ -53,6 +58,7 @@ export default {
             width: 90%;
             margin: 0.2rem;
             @include layout-flex (column,space-between,flex-start);
+            
             .good-name{
                 width: 100%;
                 height: .3rem;

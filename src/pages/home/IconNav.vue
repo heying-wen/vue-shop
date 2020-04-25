@@ -1,6 +1,6 @@
 <template>
 <div class="navigate-container">
-    <router-link tag="div" :to="'/goods-liat?cname='+item.name" v-for="item of list" :key="item.id" class="nav-item">
+    <router-link tag="div" :to="'/goods-list?cname='+item.name" v-for="item of list" :key="item.id" class="nav-item">
         <img :src="item.img" class="nav-img">
         <span>{{item.name}}</span>
     </router-link>

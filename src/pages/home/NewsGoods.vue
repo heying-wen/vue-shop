@@ -7,6 +7,7 @@
                 <div class="goods-fote">
                     <div class="goods-name">{{item.name}}</div>
                     <div class="goods-price">￥ {{item.price|formatPrice}}</div>
+                    <cart-btn font-size=".34rem" :goods="item"></cart-btn>
                 </div>
             </div>
         </div>
@@ -18,12 +19,14 @@
 
 import Container from './Container'
 import { filters } from '@/utils/mixins'
+import CartBtn from '@/components/CartBtn'
 export default {
     props:{
         newsGoodsList:Array
     },
     components:{
-        Container
+        Container,
+        CartBtn
     },
     mixins:[filters],
     watch:{

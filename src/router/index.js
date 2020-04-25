@@ -22,7 +22,7 @@ const routes = [
     name: "GoodsList",
     props: route => {
       let cid = route.query.cid || 0
-      let cname = route.query.cname || ''
+      const cname = route.query.cname || ''
       if(isNaN(cid)){
         cid = 0 
       }

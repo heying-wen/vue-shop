@@ -2,16 +2,16 @@
 <div class="page">
     <common-header :title="cname || '商品列表'" :back="backUrl"></common-header>
     <div class="sort-container border-bottom">
-        <div class="sort-item" :class="{active: sortField==='goods_id'}" @click="sortField = 'goods_id'">
+        <div class="sort-item" :class="{active: sortField==='goods_id'}" @click="sortGoodsList('goods_id')">
             综合
         </div>
-        <div class="sort-item" :class="{active: sortField==='sale_num'}" @click="sortField = 'sale_num'">
+        <div class="sort-item" :class="{active: sortField==='sale_num'}" @click="sortGoodsList('sale_num')">
             最热
         </div>
-        <div class="sort-item" :class="{active: sortField==='is_new'}" @click="sortField = 'is_new'">
+        <div class="sort-item" :class="{active: sortField==='is_new'}" @click="sortGoodsList('is_new')">
             新品
         </div>
-        <div class="sort-item" :class="{active: sortField==='goods_price'}" @click="sortField = 'goods_price'">
+        <div class="sort-item" :class="{active: sortField==='goods_price'}" @click="sortGoodsList('goods_price')">
             价格
             <span class="iconfont">&#xe6b7;</span>
         </div>
@@ -36,22 +36,20 @@ export default {
         CommonHeader,
         List
     },
-    watch:{
-        sortField (){
-            this.resetDate()
-            this.getGoodsList()
-        }
-    },
+    
     data(){
         return {
             backUrl: '',
             sortField: 'goods_id',
+            sortType:'',
             goodsList:[],
             page:1, //为你推荐页码
             count:8, //为你推荐每次获取的数量
             totalPage:0,//为你推荐总页数
             busy:false,
             scrollDistance:50,
+            catId :0,
+            pid:0,
         }
     },
     beforeRouteEnter (to,from,next) {
@@ -60,13 +58,48 @@ export default {
         })
     },
     mounted(){
+        this.$showModal({
+            content:'弹出',
+            success:res=>{
+                console.log(res)
+            }
+        })
+        this.catId = this.cid
     }, 
     methods:{
+        sortGoodsList(sortField){
+            this.sortField = sortField
+            this.resetDate()
+            this.loadMore()
+        },
         resetDate(){
             this.goodsList = [],
             this.page = 1,
             this.totalPage = 0,
             this.busy = false
+            if(this.sortField !== 'goods_price'){
+                this.sortType = ''
+            }else{
+                if(this.sortType === ''){
+                    this.sortType = 'asc'
+                }else{
+                    this.sortType = this.sortType === 'asc' ? 'desc' : 'asc'
+                }
+            }
+        },
+        async getCidByCname (){
+            if(this.catId > 0 || this.pid > 0){
+                return
+            }
+            if(this.cname !== '' && this.cid === 0){
+                const res = await this.axios.get('api/category/cid',{params:{name: this.cname}})
+                console.log(res)
+                if(res.parent){
+                    this.pid = res.cat_id
+                }else{
+                    this.catId = res.cat_id
+                }
+            }
         },
         async getGoodsList(){
             this.$showLoading()
@@ -74,8 +107,10 @@ export default {
                 params: {
                     page: this.page,
                     count: this.count,
-                    cat_id: this.cid,
+                    cat_id: this.catId,  //一级分类ID
                     sortField: this.sortField,
+                    pid:this.pid,  // 二级分类ID
+                    sortType: this.sortType
                 }
             })
             this.$hideLoading()
@@ -83,10 +118,10 @@ export default {
             if(this.page === 1){
                 this.totalPage = Math.ceil(total/this.count)
             }
-            console.log(goods,total)
             this.page++
         },
         async loadMore(){
+            await this.getCidByCname()
             this.busy = true
             if(this.page <= this.totalPage || this.totalPage === 0){
                 await this.getGoodsList()

@@ -6,6 +6,7 @@ import router from "./router";
 import store from "./store";
 import VueLazyload from 'vue-lazyload'
 import Loading from './pulgin/loading'
+import Modal from './pulgin/modal'
 
 axios.defaults.baseURL = '/api/'
 axios.defaults.timeout = 8000
@@ -31,6 +32,7 @@ Vue.use(VueLazyload,{
 })
 
 Vue.use(Loading)
+Vue.use(Modal)
 Vue.config.productionTip = false
 
 new Vue({

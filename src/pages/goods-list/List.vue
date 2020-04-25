@@ -6,18 +6,22 @@
             <span class="goods-name">{{item.name}}</span>
             <span class="goods-price">￥{{item.price|formatPrice}} <span class="market-price">￥{{item.market_price|formatPrice}}</span></span>
             <span class="goods">{{item.sale_num}}人购买</span>
-            <span class="shopping-cart iconfont">&#xe628;</span>
+            <cart-btn :goods="item"></cart-btn>
         </div>
     </div>
 </div>
 </template>
 <script>
 import {filters} from "@/utils/mixins"
+import CartBtn from '@/components/CartBtn'
 export default {
     props:{
         list:Array
     },
-    mixins:[filters]
+    mixins:[filters],
+    components:{
+        CartBtn
+    },
 }
 </script>
 <style lang="scss" scoped>
@@ -63,13 +67,6 @@ export default {
             color: $color-D;
             font-weight: 400;
             text-decoration: line-through;
-        }
-        .shopping-cart{
-            position: absolute;
-            right: 0rem;
-            bottom: .2rem;
-            color:$color-A;
-            font-size: .46rem;
         }
         .goods{
             font-size: .22rem;
