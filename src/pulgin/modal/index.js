@@ -7,7 +7,7 @@ const Modal = {
         vm.$mount(document.createElement('div'))
         document.body.appendChild(vm.$el)
 
-        Vue.prototype.$showModal = function ({title = '',content = '', btn ={confrim:'确定',cancel:'取消'},success=null}){
+        Vue.prototype.$showModal = function ({title = '',content = '', btn =['确定','取消'],success=null}){
             if(title === ''&& content === ''){
                 return
             }

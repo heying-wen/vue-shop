@@ -5,8 +5,8 @@
             <div class="modal-title border-bottom" v-if="title !== ''">{{title}}</div>
             <div class="modal-content"  v-if="content !== ''">{{content}}</div>
             <div class="modal-btn border-top">
-                <div @click="cancelModal">{{btn.cancel}}</div>
-                <div @click="confrimModal">{{btn.confrim}}</div>
+                <div @click="cancelModal">{{btn[1]}}</div>
+                <div @click="confrimModal">{{btn[0]}}</div>
             </div> 
         </div>
     </div>
@@ -19,10 +19,7 @@ export default {
             visible:false,
             title:'',
             content: '',
-            btn:{
-                confrim: '确定',
-                cancel:'取消',
-            }
+            btn:['确定','取消']
         }
     },
     methods:{
@@ -89,5 +86,12 @@ export default {
             }
         }
     }
+}
+.fade-enter-active,
+.fade-leave-active{
+    transition: opacity .5s;
+}
+.fade-enter,.fade-leave-to{
+    opacity: 0;
 }
 </style>

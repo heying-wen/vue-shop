@@ -54,7 +54,15 @@ export default {
                 }
             }
             Storage.setItem('cart',cart)
-            alert('添加成功')
+            this.$showModal({
+                content:'添加购物车成功，是否前往购物车？',
+                btn:['是','否'],
+                success:res=>{ 
+                    if(res.confrim){ 
+                        this.$router.push('./cart')
+                    }
+                }
+            })
         }
     }
 }

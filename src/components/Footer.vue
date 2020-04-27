@@ -8,10 +8,10 @@
         <span class="iconfont">&#xe620;</span>
         <span>分类</span>
     </router-link>
-    <div class="footer-nav">
+    <router-link tag="div" to="/cart" class="footer-nav">
         <span class="iconfont">&#xe628;</span>
         <span>购物车</span>
-    </div>
+    </router-link>
     <div class="footer-nav">
         <span class="iconfont">&#xe633;</span>
         <span>我的</span>

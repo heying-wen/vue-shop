@@ -58,12 +58,7 @@ export default {
         })
     },
     mounted(){
-        this.$showModal({
-            content:'弹出',
-            success:res=>{
-                console.log(res)
-            }
-        })
+        
         this.catId = this.cid
     }, 
     methods:{
