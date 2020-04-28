@@ -3,13 +3,13 @@
     <common-header :title="'购物车'"></common-header>
     <div class="cart-list">
         <div v-for="item of cart" :key="item.id" :class="{'delete-style':item.delete}" class="cart-item border-bottom" :data-goods-id="item.id" @touchstart="touchStart" @touchend="touchEnd">
-            <input type="checkbox" class="checkbox" :checked="item.selected"  onclick="toggleSelect(${item.id})">
+            <input type="checkbox" class="checkbox" :checked="item.selected"  @click="toggleSelect(item.id)">
             <img class="goods-img" :src="item.img" >
             <div class="goods-item">
                 <div class="goods-name">{{item.name}}</div>
                 <div class="goods-price">￥{{item.price}}</div>
                 <div class="number-container">
-                    <span class="iconfont " :class="{disabled:item.number===1}" @click="reduceCart(item.id)">&#xe60e;</span>
+                    <span class="iconfont " :class="{disabled:item.buyNumber===1}" @click="reduceCart(item.id)">&#xe60e;</span>
                     <span class="goods-number">{{item.buyNumber}}</span>
                     <span class="iconfont" @click="addCart(item.id)">&#xe624;</span>
                 </div>
@@ -58,7 +58,7 @@ export default {
                 }
                 return item
             })
-            console.log(this.cart)
+            this.countCart()
         }
     },
     methods :{
@@ -84,27 +84,60 @@ export default {
                 this.cart[index].delete = false
             }
         },
+        addCart(goodsId){
+            const index = this.cart.findIndex(item => item.id === goodsId)
+            this.cart[index].buyNumber++
+            this.countCart()
+        },
+        reduceCart(goodsId){
+            const index = this.cart.findIndex(item => item.id === goodsId)
+            if(this.cart[index].buyNumber > 1){
+                this.cart[index].buyNumber--
+                this.countCart()
+            }
+        },
+        deleteCart(goodsId){
+            this.$showModal({
+                content: '确定要删除吗',
+                success: res => {
+                    const index = this.cart.findIndex(item => item.id === goodsId)
+                    if(res.confrim && index >-1){
+                        this.cart.splice(index,1)
+                        this.countCart()
+                    }
+                    if(res.cancel){
+                        this.cart[index].delete =false
+                    }
+                } 
+            })
+        },
         toggleSelectAll(){
-
+            this.cart.forEach(item => {
+                item.selected = !this.selectAll
+            })
+            this.countCart()
+        },
+        toggleSelect(goodsId){
+            const index = this.cart.findIndex(item => item.id === goodsId)
+            this.cart[index].selected = !this.cart[index].selected
+            this.countCart()
+            
         },
         countCart(){
-            let selectAll = true
+            let selectAll = []
             let total = 0
             let cartNum = 0
             this.cart.forEach(item => {
                 if(item.selected){
                     total += item.price * item.buyNumber
                     cartNum++
-                }else{
-                    selectAll = false
+                    selectAll.push(true)
                 }
             })
-            if(this.cart.length === 0){
-                selectAll = false
-            }
-            this.selectAll = selectAll
+            this.selectAll = selectAll.length > 0 ?selectAll.length === this.cart.length : false
             this.total = total
             this.cartNum = cartNum
+            Storage.setItem('cart',this.cart)
         }
     }
 }

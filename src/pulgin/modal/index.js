@@ -16,6 +16,7 @@ const Modal = {
             vm.content = content
             vm.btn = btn
 
+            vm.$off('modal')
             vm.$on('modal',function(result){
                 success && success(result)
             })
