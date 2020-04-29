@@ -3,14 +3,14 @@
         <template v-slot:content v-if="show">
             <swiper :options="swiperOptions" class="swipers-container" v-if="show">
                 <swiper-slide v-for="(item,index) of pages" :key="index" class="swipers-page">
-                    <div class="swipers-goods border" v-for="val of item" :key="val.id">
+                    <router-link tag="div" :to="`/goods-detail/${val.id}`" class="swipers-goods border" v-for="val of item" :key="val.id">
                         <img v-lazy="val.img" class="goods-img">
                         <div class="goods-fote">
                             <div class="goods-name">{{val.name}}</div>
                             <div class="goods-price">￥{{val.price|formatPrice}}</div>
                             <cart-btn font-size=".34rem" :goods="val"></cart-btn>
                         </div>
-                    </div>
+                    </router-link>
                 </swiper-slide>
                 <div class="swiper-pagination" slot="pagination"></div>
             </swiper>

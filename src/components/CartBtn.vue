@@ -59,7 +59,7 @@ export default {
                 btn:['是','否'],
                 success:res=>{ 
                     if(res.confrim){ 
-                        this.$router.push('./cart')
+                        this.$router.push('/cart')
                     }
                 }
             })
