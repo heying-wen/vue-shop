@@ -2,15 +2,20 @@
 <div>
     <detail-header :showIconMenu="showIconMenu" :opacity="headerOpacity" :scrollTab="scrollTab" @tab="changeTab"></detail-header>
     <div class="page" ref="page">
-        <div style="height:1000px">
+        <div>
             <div id="goods">
                 <detail-Gallery :gallery="gallery"></detail-Gallery>
             </div>
-            <div style="height:200px" >
-                <div class="goods-name">{{goods.goods_name}}</div>
+            <detail-content :goods="goods"></detail-content>
+            <div id="comment">
+                <detail-comment :goodsId="id" :list="comment.list" :count="comment.count"></detail-comment>
             </div>
-            <div style="height:200px" id="comment">评论</div>
-            <div id="detail">详情</div>
+            <div id="detail" class="detail">
+                <div class="det">详情</div>
+                <div class="img" v-for="(item,index) of goods.content" :key="index">
+                    <img v-lazy="item">
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -21,6 +26,8 @@
 import BScroll from 'better-scroll'
 import DetailHeader from "./Header"
 import DetailGallery from "./Gallery"
+import DetailContent from './Content'
+import DetailComment from './Comment'
 export default {
     props:{
         id:Number
@@ -28,6 +35,8 @@ export default {
     components:{
         DetailHeader,
         DetailGallery,
+        DetailContent,
+        DetailComment
     },
     data(){
         return {
@@ -65,7 +74,7 @@ export default {
                 } else {
                     this.scroll.refresh() // 重新属性BScroll状态
                 }
-                 this.scroll.on('scroll',position => {
+                this.scroll.on('scroll',position => {
                     const y = Math.abs(position.y)
                     const headerOpacity = y / 150
                     this.headerOpacity = headerOpacity > 1 ? 1 : headerOpacity
@@ -80,14 +89,14 @@ export default {
         },
         getGoods(){
             this.axios.get(`api/goods?goods_id=${this.id}`).then(result => {
-                const {comment: commentList,commenTotal,gallery,goods} = result
+                const {comment: commentList,commentTotal,gallery,goods} = result
                 this.comment = {
                     list: commentList,
-                    count: commenTotal
+                    count: commentTotal
                 }
                 this.gallery = gallery
                 this.goods = goods
-                console.log(goods,commentList)
+                console.log(goods.content)
             }).catch(err =>{
                 console.log(err)
                 this.$router.push('/goods-notfound')
@@ -104,5 +113,20 @@ export default {
     height: 600px;
     overflow: hidden;
     background: $color-E;
+    .detail{
+        width: 100%;
+        margin-top: .2rem;
+        @include layout-flex(column);
+        .det{
+            margin-bottom: .2rem;
+        }
+        .img{
+            width: 100%;
+            height: auto;
+            img{
+                width: 100%;
+            }
+        }
+    }
 }
 </style>
