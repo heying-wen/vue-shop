@@ -2,7 +2,7 @@
 <div class="comment-container">
     <div class="comment-header border-bottom">
         <div>商品评价({{count}})</div>
-        <div class="iconfont">查看全部&#xe601;</div>
+        <div class="iconfont" v-if="showMore">查看全部&#xe601;</div>
     </div>
     <div class="comment" v-for="item of list" :key="item.id">
         <div class="information">
@@ -20,6 +20,15 @@ export default {
         goodsId:Number,
         list:Array,
         count:Number,
+    },
+    computed:{
+        
+        showMore(){
+            if(!this.list){
+                return false
+            }
+            return !!this.list.length
+        }
     }
 }
 </script>
@@ -37,6 +46,9 @@ export default {
         height: .6rem;
         color: $color-C;
         @include layout-flex($justify:space-between);
+        .iconfont{
+            color: #ff0036;
+        }
     }
     .comment{
         width: 100%;

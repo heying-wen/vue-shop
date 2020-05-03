@@ -18,6 +18,26 @@
             </div>
         </div>
     </div>
+    <div class="footer border-top">
+        <div class="footer-left">
+            <div class="footer-tell" @click="$router.push('/')">
+                <span class="iconfont">&#xe600;</span>
+                首页
+            </div>
+            <div class="footer-tell">
+                <span class="iconfont">&#xe62b;</span>
+                客服
+            </div>
+            <div class="footer-tell" :class="{collect:isCollect}" @click="collect"> 
+                <span class="iconfont">{{isCollect ?'&#xe60f;':'&#xe662;'}} </span>
+                {{isCollect ?'已收藏':'收藏'}} 
+            </div>
+        </div>
+        <div class="footer-right">
+            <div class="buy">立即购买</div>
+            <div class="cart">加入购物车</div>
+        </div>
+    </div>
 </div>
 
 </template>
@@ -28,6 +48,7 @@ import DetailHeader from "./Header"
 import DetailGallery from "./Gallery"
 import DetailContent from './Content'
 import DetailComment from './Comment'
+import { Token } from '@/utils/token'
 export default {
     props:{
         id:Number
@@ -40,6 +61,7 @@ export default {
     },
     data(){
         return {
+            isCollect:false,
             scrollTab:'goods',
             showIconMenu:true,
             comment: {}, 
@@ -61,8 +83,54 @@ export default {
     mounted() {
         this.getGoods()
         this.initScroll()
+        this.initCollect()
     },
     methods:{
+        initCollect(){
+            //判断是否登录
+            const token  = Token.getToken()
+            if(token === ''){
+                this.isCollect = false
+                return
+            }
+            this.axios.get('shose/collect/check',{
+                params:{
+                    goods_id: this.id
+                },
+                headers:{
+                    token
+                }
+            }).then(res => {
+                console.log(res)
+                this.isCollect = res.collect === 1
+            })
+        },
+        async collect(){
+            //判断是否登录
+            const token  = Token.getToken()
+            if(token === ''){//没有登录， 登录跳转至登录页面
+                const url= encodeURIComponent('/goods-detail/'+ this.id)
+                this.$router.push(`/login?url=${url}`)
+                return
+            }
+            //登录了，判断是收藏还是取消收藏
+            let path = ''
+            if(this.isCollect){
+                //取消收藏
+                path = 'shose/collect/cancel'
+            }else{
+                //收藏
+                path = 'shose/collect/confirm'
+            }
+            this.$showLoading() 
+            await this.axios.post(path, {goods_id: this.id},{
+                    headers:{
+                        token
+                    }
+                })
+                this.$hideLoading()
+                this.isCollect = !this.isCollect
+        },
         changeTab(tabName){
             this.scrollTab = tabName
             this.scroll.scrollToElement('#'+tabName,1000,0 ,-50)
@@ -96,10 +164,9 @@ export default {
                 }
                 this.gallery = gallery
                 this.goods = goods
-                console.log(goods.content)
             }).catch(err =>{
-                console.log(err)
                 this.$router.push('/goods-notfound')
+                console.log(err)
             })
         }
     }
@@ -126,6 +193,54 @@ export default {
             img{
                 width: 100%;
             }
+        }
+    }
+}
+.footer{
+    width:100%;
+    height: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: $color-F;
+    @include layout-flex;
+    .footer-left{
+        flex: 1;
+        width: 0;
+        height: 100%;
+        @include layout-flex;
+        .footer-tell{
+            width: 1rem;
+            height: 100%;
+            @include layout-flex(column);
+            font-size: .24rem;
+            color: $color-D;
+            .iconfont{
+                font-size: .4rem;
+                margin-bottom: .2rem;
+            }
+            &.collect{
+                color: #ff0036;
+            }
+        }
+    }
+    .footer-right{
+        width: 4.5rem;
+        height: 100%;
+        @include layout-flex;
+        font-size: .3rem;
+        color: $color-F;
+        .buy{
+            width: 50%;
+            height: 100%;
+            background: $color-A;
+            @include layout-flex;
+        }
+        .cart{
+            width: 50%;
+            height: 100%;
+            background: #ff0036;
+            @include layout-flex;
         }
     }
 }

@@ -6,6 +6,8 @@ import GoodsList from "../pages/goods-list/index.vue";
 import Cart from "../pages/cart/index.vue";
 import GoodsDetail from "../pages/goods-detail/index.vue";
 import GoodsNotFound from "../pages/goods-notfound/index.vue";
+import Login from "../pages/login/index.vue";
+import Register from "../pages/register/index.vue";
 
 
 Vue.use(VueRouter);
@@ -30,6 +32,16 @@ const routes = [
     path: "/goods-notfound",
     name: "GoodsNotFound",
     component: GoodsNotFound
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: Register
   },
   {
     path: "/goods-list",
@@ -68,7 +80,7 @@ const routes = [
     },
     name: "GoodsDetail",
     component: GoodsDetail
-  },
+  }, 
 ];
 
 const router = new VueRouter({

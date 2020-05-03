@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="discount-container">
-        <div class="dic border-bottom">
+        <div class="dic border-bottom" @click="getCoupon">
             <span>优惠</span>
             <div class="discount">领取优惠券</div>
             <span class="iconfont">领取&#xe601;</span>
@@ -40,6 +40,11 @@
 export default {
     props:{
         goods:{}
+    },
+    methods:{
+        getCoupon(){
+            
+        }
     }
 }
 </script>
