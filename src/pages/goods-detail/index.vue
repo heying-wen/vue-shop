@@ -35,7 +35,7 @@
         </div>
         <div class="footer-right">
             <div class="buy">立即购买</div>
-            <div class="cart">加入购物车</div>
+            <div class="cart" @click="addToCart">加入购物车</div>
         </div>
     </div>
 </div>
@@ -49,6 +49,7 @@ import DetailGallery from "./Gallery"
 import DetailContent from './Content'
 import DetailComment from './Comment'
 import { Token } from '@/utils/token'
+import { Storage } from '@/utils/storage'
 export default {
     props:{
         id:Number
@@ -84,6 +85,10 @@ export default {
         this.getGoods()
         this.initScroll()
         this.initCollect()
+        let bodyHeight = document.documentElement.offsetHeight
+        let headerHeight = document.querySelector('.header-container').offsetHeight
+        let footerHeight = document.querySelector('.footer').offsetHeight
+        this.$refs.page.style.height = bodyHeight - headerHeight - footerHeight + 'px'
     },
     methods:{
         initCollect(){
@@ -168,6 +173,43 @@ export default {
                 this.$router.push('/goods-notfound')
                 console.log(err)
             })
+        },
+        addToCart(){
+            if(this.id === 0){
+                return
+            }
+            const goods = this.goods 
+            const cart = Storage.getItem('cart') || []
+            const index = cart.findIndex(item => item.id === goods.id)
+            const cartData = {
+                id:goods.goods_id,
+                img:goods.goods_img,
+                name:goods.goods_name,
+                price:goods.goods_price
+            }
+            if(index === -1){
+                cartData.selected = true
+                cartData.buyNumber = 1
+                cart.push(cartData)
+            }else{
+                const buyNumber = cart[index].buyNumber
+                const selected = cart[index].selected
+                cart[index] = {
+                    ...cartData,
+                    selected,
+                    buyNumber : 1 + buyNumber
+                }
+            }
+            Storage.setItem('cart',cart)
+            this.$showModal({
+                content:'添加购物车成功，是否前往购物车？',
+                btn:['是','否'],
+                success:res=>{ 
+                    if(res.confrim){ 
+                        this.$router.push('/cart')
+                    } 
+                }
+            })
         }
     }
 }
@@ -177,7 +219,6 @@ export default {
 @import "~@/assets/scss/global";
 .page{
     width: 100%;
-    height: 600px;
     overflow: hidden;
     background: $color-E;
     .detail{

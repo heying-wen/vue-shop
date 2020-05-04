@@ -105,7 +105,7 @@ export default {
             this.axios.post('shose/user/register',data).then(()=>{
                 this.$router.push(`/login?url=${encodeURIComponent(this.loginRedirect)}`)
             }).catch(err =>{
-                alert(err.message)
+                this.$showToast(err.message)
             })
         },
         validate(data){
@@ -113,7 +113,7 @@ export default {
                 if(Reflect.has(this.forDataValidator,key)){
                     const res = this.forDataValidator[key](data[key],data.password)
                     if(res.error !== 0){
-                        alert(res.message)
+                        this.$showToast(res.message)
                         return false
                     }
                 }

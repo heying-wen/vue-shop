@@ -37,13 +37,22 @@
 </template>
 
 <script>
+// import { Token } from '@/utils/token'
 export default {
     props:{
-        goods:{}
+        goods:Object
     },
     methods:{
-        getCoupon(){
-            
+        getCoupon(){ 
+            //判断是否登录
+            // const token  = Token.getToken()
+            // if(token === ''){//没有登录， 登录跳转至登录页面
+            //     const url= encodeURIComponent('/goods-detail/'+ this.goods.goods_id)
+            //     this.$router.push(`/login?url=${url}`)
+            //     return
+            // }
+            const url= encodeURIComponent('/goods-detail/'+ this.goods.goods_id)
+            this.$router.push(`/coupon?url=${url}`)
         }
     }
 }

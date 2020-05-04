@@ -101,7 +101,7 @@ export default {
                 content: '确定要删除吗',
                 success: res => {
                     const index = this.cart.findIndex(item => item.id === goodsId)
-                    if(res.confrim && index >-1){
+                    if(res.confrim){
                         this.cart.splice(index,1)
                         this.countCart()
                     }

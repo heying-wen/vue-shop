@@ -7,6 +7,7 @@ import store from "./store";
 import VueLazyload from 'vue-lazyload'
 import Loading from './pulgin/loading'
 import Modal from './pulgin/modal'
+import Toast from './pulgin/toast'
 
 axios.defaults.baseURL = '/api/'
 axios.defaults.timeout = 8000
@@ -33,6 +34,7 @@ Vue.use(VueLazyload,{
 
 Vue.use(Loading)
 Vue.use(Modal)
+Vue.use(Toast)
 Vue.config.productionTip = false
 
 new Vue({
