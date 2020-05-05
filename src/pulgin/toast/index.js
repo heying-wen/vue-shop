@@ -7,7 +7,7 @@ const toast = {
         vm.$mount(document.createElement('div'))
         document.body.appendChild(vm.$el)
 
-        Vue.prototype.$showToast = function (message = '',mask = true,duration = 1500){
+        Vue.prototype.$showToast = function ({message  = '',mask = true,duration = 1500,callback = null}){
             if(message !== ''){
                 vm.visible = true
                 vm.mask = mask
@@ -15,7 +15,8 @@ const toast = {
                 setTimeout(()=>{
                     vm.visible = false
                     vm.mask = false
-                    vm.message = ''
+                    vm,message = ''
+                    callback && callback()
                 },duration)
             }
         }

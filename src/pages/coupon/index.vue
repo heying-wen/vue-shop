@@ -86,7 +86,7 @@ export default {
             const index = this.couponList.findIndex(item => item.id === couponId)
             if(index > -1){
                 const coupon = this.couponList[index]
-                if(coupon.points > 0&&coupon.points > this.points){
+                if(coupon.points > 0&& coupon.points > this.points){
                     this.$showToast('积分不足')
                     return
                 }
@@ -100,7 +100,9 @@ export default {
                 }).then(()=>{
                     this.$showToast('兑换成功')
                 }).catch(err=>{
-                    this.$showToast(err.message || '兑换失败')
+                    this.$showToast({
+                        message: err.message || '兑换失败'
+                    })
                 }).finally( ()=>{
                     this.$hideLoading()
                 }) 
@@ -109,7 +111,7 @@ export default {
     }
 }
 </script>
-<style lang="scss" scopeds>
+<style lang="scss" scoped>
 @import "~@/assets/scss/global";
 .page{
     width: 100%;

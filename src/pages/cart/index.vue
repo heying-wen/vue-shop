@@ -25,7 +25,7 @@
             <span class="total-price-container">
                 合计 :<span class="total-price">￥{{total.toFixed(2)}}</span>
             </span>
-            <div class="settlement" onclick="submitCart()">去结算({{cartNum}})</div>
+            <div class="settlement" @click="submitCart">去结算({{cartNum}})</div>
         </div>
     </div>
     <common-footer></common-footer>
@@ -62,6 +62,13 @@ export default {
         }
     },
     methods :{
+        submitCart(){
+            if(this.cartNum === 0){
+                this.$showToast('至少选择一个商品')
+                return
+            }
+            this.$router.push('/order?loginRedirect=' + encodeURIComponent('/order'))
+        },
         touchStart(event){
             touchStartX = event.changedTouches[0].clientX
             touchStartTime = event.timeStamp

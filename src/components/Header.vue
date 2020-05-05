@@ -42,10 +42,8 @@ export default {
     height: $Header-H;
     background-color:$color-A;
     font-size:0.36rem;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    color: $color-F;
+    @include layout-flex;
     overflow: hidden;
     position: fixed;
     top: 0;
