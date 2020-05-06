@@ -1,7 +1,7 @@
 <template>
 <div class="page">
-    <common-header :title="'我的地址'" :back="backUrl"></common-header>
-    <div class="add-address" v-if="showAddAddress" @click="$router.push(`/order/address?url=${backUrl}`)">
+    <common-header :title="'选择地址'" :back="backUrl"></common-header>
+    <div class="add-address" v-if="showAddAddress" @click="$router.push(`/user/add-address?url=${backUrl}`)">
         <span class="iconfont">&#xe624;</span> 
         添加新地址
     </div>

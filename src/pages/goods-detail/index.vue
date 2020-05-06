@@ -180,7 +180,7 @@ export default {
             }
             const goods = this.goods 
             const cart = Storage.getItem('cart') || []
-            const index = cart.findIndex(item => item.id === goods.id)
+            const index = cart.findIndex(item => item.id === this.id)
             const cartData = {
                 id:goods.goods_id,
                 img:goods.goods_img,

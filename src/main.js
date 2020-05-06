@@ -19,7 +19,7 @@ axios.interceptors.response.use(function (response) {
   if(res.error_code === 0){
     return res.data || ''
   }else{
-    return Promise.reject(new Error(res.error_smg || '获取失败'))
+    return Promise.reject(new Error(res.error_msg || '获取失败'))
   }
 }, function (error) {
   console.log('error' , error)

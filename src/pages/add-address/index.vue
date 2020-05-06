@@ -12,8 +12,8 @@
         </div>
         <div class="row border-bottom">
             <label class="title">选择地区</label>
-            <div class="input region-input">
-                地区信息
+            <div class="input region-input" @click="showChooseAddress=true">
+                {{region}}
                 <span class="iconfont">&#xe601;</span>
             </div>
         </div>
@@ -29,16 +29,23 @@
             </div>
         </div>
     </div>
+    <div class="choose-region" v-show="showChooseAddress">
+        <div class="mask"  @click="showChooseAddress=false"></div>
+        <v-distpicker :province="province" :city="city" :area="area" type="mobile" @selected="selectAddress"></v-distpicker>
+    </div> 
+    
 </div>
 </template>
 <script>
 import CommonHeader from '@/components/Header'
+import VDistpicker from 'v-distpicker'
 // import {Token} from '@/utils/token'
 // const USER_TOKEN =Token.getToken()
 // const MAX_ADDRESS_NUM = 10
 export default {
     components:{
-        CommonHeader
+        CommonHeader,
+        VDistpicker
     },
     beforeRouteEnter (to,from,next) {
         next(vm => {
@@ -48,13 +55,28 @@ export default {
     data(){
         return{
             backUrl:'',
+            showChooseAddress:false,
+            province:'',
+            city:'',
+            area:''
         }
     },
-    mounted(){
-        
+    computed:{
+        region(){
+            if(this.province === ''){
+                return '地区信息'
+            }else{
+                return `${this.province} ${this.city} ${this.area}`
+            }
+        }
     },
     methods:{
-        
+        selectAddress(data){
+            this.province = data.province.value
+            this.city = data.city.value
+            this.area = data.area.value
+            this.showChooseAddress=false
+        }
     }
 }
 </script>
@@ -95,6 +117,29 @@ export default {
                 @include layout-flex($justify:space-between);
                 color: $color-D;
             }
+        }
+    }
+    .choose-region{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        .mask{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: rgba($color: #000000, $alpha: .3);
+        }
+        /deep/ .distpicker-address-wrapper{
+            width: 100%;
+            height: 50%;
+            position: fixed;
+            left: 0;
+            top: 50%;
+            background: $color-F;
         }
     }
 }

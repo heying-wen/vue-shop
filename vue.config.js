@@ -4,7 +4,7 @@ module.exports = {
         port:8090,
         proxy:{
             '/api':{
-                target:'http://www.2yue.cc/index.php/',
+                target:'http://api.2yue.cc/index.php/',
                 cahngeOrigin: true,
                 pathRewrite:{
                     '^/api':''

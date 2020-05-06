@@ -17,14 +17,17 @@ export default {
     },
     computed:{
         showAddress() {
-            return !!Object.keys(this.address).length
+            if(Object.keys(this.address).length===0){
+                return ''
+            }
+            return `${this.address.province}${this.address.city}${this.address.area}${this.address.address}`
         }
     },
     methods:{
         editAddress (){
             const id = this.address.id || 0
             const url = encodeURIComponent('/order')
-            this.$router.push(`/user/address?id=${id}&url=${url}`)
+            this.$router.push(`/order/address?id=${id}&url=${url}`)
         }
     }
 }
