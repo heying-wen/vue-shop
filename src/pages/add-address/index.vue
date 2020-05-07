@@ -4,11 +4,11 @@
     <div class="add-address">
         <div class="row border-bottom">
             <label class="title">收货人</label>
-            <input type="text" placeholder="姓名" class="input">
+            <input type="text" placeholder="姓名" class="input" v-model="name">
         </div>
         <div class="row border-bottom">
             <label class="title">联系电话</label>
-            <input type="text" placeholder="电话" class="input">
+            <input type="text" placeholder="电话" class="input" v-model="phone">
         </div>
         <div class="row border-bottom">
             <label class="title">选择地区</label>
@@ -19,12 +19,12 @@
         </div>
         <div class="row border-bottom">
             <label class="title">详细地址</label>
-            <textarea placeholder="街道门牌信息" class="textarea"></textarea>
+            <textarea placeholder="街道门牌信息" class="textarea" v-model="address"></textarea>
         </div>
         <div class="row border-bottom">
             <label class="title">设置为默认地址</label>
             <div class="switch-container">
-                <input type="checkbox" id="user-switch">
+                <input type="checkbox" id="user-switch" v-model="isDefult">
                 <label for="user-switch"></label>
             </div>
         </div>
@@ -33,15 +33,18 @@
         <div class="mask"  @click="showChooseAddress=false"></div>
         <v-distpicker :province="province" :city="city" :area="area" type="mobile" @selected="selectAddress"></v-distpicker>
     </div> 
-    
+    <div class="login-btn">
+        <div class="submit" @click="saveAddress">提交</div>
+    </div>
 </div>
 </template>
 <script>
 import CommonHeader from '@/components/Header'
 import VDistpicker from 'v-distpicker'
-// import {Token} from '@/utils/token'
-// const USER_TOKEN =Token.getToken()
-// const MAX_ADDRESS_NUM = 10
+import addressVaildate from '@/vaildate/address'
+import { validate } from '@/utils/function'
+import { Token } from '@/utils/token'
+const USER_TOKEN =Token.getToken()
 export default {
     components:{
         CommonHeader,
@@ -49,7 +52,7 @@ export default {
     },
     beforeRouteEnter (to,from,next) {
         next(vm => {
-            vm.backUrl = from.path
+            vm.backUrl = to.query.url || from.path
         })
     },
     data(){
@@ -58,7 +61,11 @@ export default {
             showChooseAddress:false,
             province:'',
             city:'',
-            area:''
+            area:'',
+            name:'',
+            phone:'',
+            address:'',
+            isDefult:false,
         }
     },
     computed:{
@@ -71,7 +78,40 @@ export default {
         }
     },
     methods:{
-        selectAddress(data){
+        saveAddress(){
+             const data = {
+                name :this.name,
+                phone :this.phone,
+                province :this.province,
+                city :this.city,
+                area :this.area,
+                address :this.address,
+                is_defalut :this.isDefult ? 1 : 0 
+            }
+            const res = validate(data,addressVaildate)
+            if(res.error !== 0){
+                this.$showToast({
+                    message: res.message
+                })
+                return
+            }
+            this.$showLoading()
+            this.axios.post('shose/address/add',data,{
+                headers:{
+                    token:USER_TOKEN
+                }
+            }).then((res)=>{
+                const addressId = res.address_id
+                this.$router.push(this.backUrl+'?selectAddressId='+addressId)
+            }).catch(err =>{
+                this.$showToast({
+                    message:err.message
+                })
+            }).finally(()=>{
+                this.$hideLoading()
+            })
+        },
+        selectAddress(data){ 
             this.province = data.province.value
             this.city = data.city.value
             this.area = data.area.value
@@ -141,6 +181,16 @@ export default {
             top: 50%;
             background: $color-F;
         }
+    }
+    .login-btn{
+        width: 90%;
+        height: .9rem;
+        margin: .2rem 5% 0;
+        background: $color-A;
+        border-radius: .1rem;
+        @include layout-flex;
+        color: $color-F;
+        font-size: .32rem;
     }
 }
 

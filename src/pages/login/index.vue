@@ -26,6 +26,8 @@
 <script>
 import CommonHeader from '@/components/Header'
 import { Token } from '@/utils/token'
+import forDataValidator from '@/vaildate/login'
+import {validate} from '@/utils/function'
 export default {
     components:{
         CommonHeader,
@@ -36,26 +38,6 @@ export default {
             username:'',
             password:'',
             loginRedirect:'',
-            forDataValidator:{
-                username (val) {
-                    if(val === ''){
-                        return {error:1,message: "账号为空"}
-                    }
-                    if(val.length < 3){
-                        return {error:1,message: "账号长度小于3"}
-                    }
-                    return {error:0}
-                },
-                password (val) {
-                    if(val === ''){
-                        return {error:1,message: "密码为空"}
-                    }
-                    if(val.length < 6){
-                        return {error:1,message: "密码长度小于6"}
-                    }
-                    return {error:0}
-                }
-            }
         }
     },
     beforeRouteEnter (to,from,next) {
@@ -80,7 +62,13 @@ export default {
                 username :this.username,
                 password :this.password
             }
-            const validate = this.validate(data)
+            const res = validate(data,forDataValidator)
+            if(res.error !== 0){
+                this.$showToast({
+                    message:res.message
+                })
+                return
+            }
             if(!validate){
                 return
             }
@@ -95,20 +83,6 @@ export default {
                 })
             })
         }, 
-        validate(data){
-            for(let key in data){
-                if(Reflect.has(this.forDataValidator,key)){
-                    const res = this.forDataValidator[key](data[key],data.password)
-                    if(res.error !== 0){
-                        this.$showToast({
-                            message: res.message
-                        })
-                        return false
-                    }
-                }
-            }
-            return true
-        },
     }
 }
 </script>

@@ -28,11 +28,13 @@
                  <router-link :to="`/login?url=${encodeURIComponent(loginRedirect)}`">去登录</router-link>
             </div>
         </div>
-    </div>
+    </div> 
 </div>
 </template>
 <script>
 import CommonHeader from '@/components/Header'
+import forDataValidator from '@/vaildate/register'
+import {validate} from '@/utils/function'
 export default {
     components:{
         CommonHeader,
@@ -45,44 +47,6 @@ export default {
             confirmPwd:'',
             nickname:'',
             loginRedirect:'',
-            forDataValidator:{
-                username (val) {
-                    if(val === ''){
-                        return {error:1,message: "账号为空"}
-                    }
-                    if(val.length < 3){
-                        return {error:1,message: "账号长度小于3"}
-                    }
-                    return {error:0}
-                },
-                password (val) {
-                    if(val === ''){
-                        return {error:1,message: "密码为空"}
-                    }
-                    if(val.length < 6){
-                        return {error:1,message: "密码长度小于6"}
-                    }
-                    return {error:0}
-                },
-                confirmPwd (val,password) {
-                    if(val === ''){
-                        return {error:1,message: "确认密码为空"}
-                    }
-                    if(val !== password){
-                        return {error:1,message: "两次密码不一致"}
-                    }
-                    return {error:0}
-                },
-                nickname (val) {
-                    if(val === ''){
-                        return {error:1,message: "昵称为空"}
-                    }
-                    if(val.length < 2){
-                        return {error:1,message: "昵称长度小于2"}
-                    }
-                    return {error:0}
-                }
-            }
         }
     },
     mounted(){
@@ -98,7 +62,13 @@ export default {
                 confirmPwd :this.confirmPwd,
                 nickname :this.nickname,
             }
-            const validate = this.validate(data)
+            const res = validate(data,forDataValidator)
+            if(res.error !== 0){
+                this.$showToast({
+                    message:res.message
+                })
+                return
+            }
             if(!validate){
                 return 
             }
@@ -109,20 +79,6 @@ export default {
                     message:err.message
                 })
             })
-        },
-        validate(data){
-            for(let key in data){
-                if(Reflect.has(this.forDataValidator,key)){
-                    const res = this.forDataValidator[key](data[key],data.password)
-                    if(res.error !== 0){
-                        this.$showToast({
-                            message:res.message
-                        })
-                        return false
-                    }
-                }
-            }
-            return true
         },
     }
 }
@@ -166,6 +122,7 @@ export default {
                 border-radius: .3rem;
                 @include layout-flex;
                 color: $color-F;
+                font-size: .32rem;
             }
             .login-desc{
                 width: 100%;
