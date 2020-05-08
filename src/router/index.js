@@ -9,11 +9,12 @@ import GoodsNotFound from "../pages/goods-notfound/index.vue";
 import Login from "../pages/login/index.vue";
 import Register from "../pages/register/index.vue";
 import Coupon from "../pages/coupon/index.vue";
-import Order from "../pages/order/index.vue";
 import User from "../pages/user/index.vue";
 import UserAddress from "../pages/user-address/index.vue";
 import AddAddress from "../pages/add-address/index.vue";
+import Order from "../pages/order/index.vue";
 import OrderAddress from "../pages/order-address/index.vue";
+import OrderPay from "../pages/order-pay/index.vue";
 import { Token } from "../utils/token"
 
 Vue.use(VueRouter);
@@ -80,6 +81,24 @@ const routes = [
     component: Order,
   },
   {
+    path:'/order/address',
+    name: "OrderAddress",
+    component: OrderAddress,
+  },
+  {
+    path:'/order/pay',
+    beforeEnter(to,from,next){
+      const id = to.query.id
+      if(!/^\d+$/.test(id)){
+        next('/')
+      }else{
+        next()
+      } 
+    },
+    name: "OrderPay",
+    component: OrderPay,
+  },
+  {
     path:'/user',
     name: "User",
     component: User,
@@ -100,11 +119,6 @@ const routes = [
     path:'/user/add-address',
     name: "AddAddress",
     component: AddAddress,
-  },
-  {
-    path:'/order/address',
-    name: "OrderAddress",
-    component: OrderAddress,
   },
   {
     path: "/goods-detail/:id",
@@ -134,7 +148,7 @@ const router = new VueRouter({
 });
 
 //需要登录验证的路由名称
-const AUTH_ROUTER_NAME = ['Coupon','Order','UserAddress','AddAddress','OrderAddress']
+const AUTH_ROUTER_NAME = ['Coupon','Order','OrderPay','UserAddress','AddAddress','OrderAddress']
 //登陆验证
 router.beforeEach((to,from,next)=>{
   if(AUTH_ROUTER_NAME.includes(to.name)){

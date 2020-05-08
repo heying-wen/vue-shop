@@ -44,7 +44,6 @@ import VDistpicker from 'v-distpicker'
 import addressVaildate from '@/vaildate/address'
 import { validate } from '@/utils/function'
 import { Token } from '@/utils/token'
-const USER_TOKEN =Token.getToken()
 export default {
     components:{
         CommonHeader,
@@ -89,6 +88,7 @@ export default {
                 is_defalut :this.isDefult ? 1 : 0 
             }
             const res = validate(data,addressVaildate)
+            const token =Token.getToken()
             if(res.error !== 0){
                 this.$showToast({
                     message: res.message
@@ -98,11 +98,14 @@ export default {
             this.$showLoading()
             this.axios.post('shose/address/add',data,{
                 headers:{
-                    token:USER_TOKEN
+                    token
                 }
             }).then((res)=>{
-                const addressId = res.address_id
-                this.$router.push(this.backUrl+'?selectAddressId='+addressId)
+                // const addressId = res.address_id
+                // this.$router.push(this.backUrl+'?selectAddressId='+addressId)
+                data.id = res.address_id
+                Storage.setItem('address',data)
+                this.$router.push('/order')
             }).catch(err =>{
                 this.$showToast({
                     message:err.message

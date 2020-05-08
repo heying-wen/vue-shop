@@ -26,6 +26,7 @@ import CommonHeader from '@/components/Header'
 import { Token } from '@/utils/token'
 import { filters } from '@/utils/mixins'
 import { dateFormat,formatPrice } from '@/utils/function'
+import {Storage} from '@/utils/storage'
 const USER_TOKEN =Token.getToken()
 export default {
     components:{
@@ -98,7 +99,10 @@ export default {
                         token:USER_TOKEN
                     }
                 }).then(()=>{
-                    this.$showToast('兑换成功')
+                    this.$showToast({
+                        message:'兑换成功'
+                    })
+                    Storage.deleteItem('userCoupon')
                 }).catch(err=>{
                     this.$showToast({
                         message: err.message || '兑换失败'
