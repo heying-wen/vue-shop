@@ -1,12 +1,11 @@
 @font-face {
-  font-family: "iconfont";
-  src: url("//at.alicdn.com/t/font_1586768_tcpc2nm0of.eot");
-  src: url("//at.alicdn.com/t/font_1586768_tcpc2nm0of.eot?#iefix")
-      format("embedded-opentype"),
-    url("//at.alicdn.com/t/font_1586768_tcpc2nm0of.woff2") format("woff2"),
-    url("//at.alicdn.com/t/font_1586768_tcpc2nm0of.woff") format("woff"),
-    url("//at.alicdn.com/t/font_1586768_tcpc2nm0of.ttf") format("truetype"),
-    url("//at.alicdn.com/t/font_1586768_tcpc2nm0of.svg#iconfont") format("svg");
+  font-family: 'iconfont';  /* project id 1586768 */
+  src: url('//at.alicdn.com/t/font_1586768_ujhdj431y48.eot');
+  src: url('//at.alicdn.com/t/font_1586768_ujhdj431y48.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1586768_ujhdj431y48.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1586768_ujhdj431y48.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1586768_ujhdj431y48.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1586768_ujhdj431y48.svg#iconfont') format('svg');
 }
 .iconfont {
   font-family: "iconfont" !important;

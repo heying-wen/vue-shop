@@ -35,7 +35,6 @@ import CommonHeader from '@/components/Header'
 import OrderAddress from './Address'
 import { Token } from '@/utils/token'
 import {Storage} from '@/utils/storage'
-
 export default {
     components:{
         CommonHeader,
@@ -205,7 +204,7 @@ export default {
                     }
                     //清空优惠券信息
                     Storage.deleteItem('userCoupon')
-                    this.$router.replace('/order/pay')
+                    this.$router.replace('/order/pay?id='+res.order_id)
                 }
             }catch(err){
                 this.$showToast({

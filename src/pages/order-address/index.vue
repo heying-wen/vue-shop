@@ -25,7 +25,7 @@
 <script>
 import CommonHeader from '@/components/Header'
 import {Token} from '@/utils/token'
-
+import {Storage} from '@/utils/storage'
 const MAX_ADDRESS_NUM = 10
 export default {
     components:{

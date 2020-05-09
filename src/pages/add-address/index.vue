@@ -43,6 +43,7 @@ import CommonHeader from '@/components/Header'
 import VDistpicker from 'v-distpicker'
 import addressVaildate from '@/vaildate/address'
 import { validate } from '@/utils/function'
+import { Storage } from '@/utils/storage'
 import { Token } from '@/utils/token'
 export default {
     components:{
