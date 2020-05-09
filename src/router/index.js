@@ -151,18 +151,19 @@ const router = new VueRouter({
 });
 
 //需要登录验证的路由名称
-const AUTH_ROUTER_NAME = ['Coupon','Order','OrderPay','UserAddress','AddAddress','OrderAddress']
+const AUTH_ROUTER_NAME = ['Coupon','Order','OrderPay','UserAddress','AddAddress','OrderAddress','User']
 //登陆验证
 router.beforeEach((to,from,next)=>{
   if(AUTH_ROUTER_NAME.includes(to.name)){
     const token  = Token.getToken()
     if(token === ''){
       let url
-      if(to.query.loginRedirect !== ''){
+      if(to.query.loginRedirect){
         url = decodeURIComponent(to.query.loginRedirect)
       }else{
-        url= encodeURIComponent(from.path)
+        url= encodeURIComponent(to.path)
       }
+      console.log(url)
       next(`/login?url=${url}`)
     }else{
       next()
