@@ -12,6 +12,7 @@ import Coupon from "../pages/coupon/index.vue";
 import User from "../pages/user/index.vue";
 import UserAddress from "../pages/user-address/index.vue";
 import UserInfo from "../pages/user-info/index.vue";
+import UserSign from "../pages/user-sign/index.vue";
 import AddAddress from "../pages/add-address/index.vue";
 import Order from "../pages/order/index.vue";
 import OrderAddress from "../pages/order-address/index.vue";
@@ -127,6 +128,11 @@ const routes = [
     component: UserInfo,
   },
   {
+    path:'/user/sign',
+    name: "UserSign",
+    component: UserSign,
+  },
+  {
     path: "/goods-detail/:id",
     beforeEnter(to,from,next){
       const id = to.params.id
@@ -157,7 +163,7 @@ const router = new VueRouter({
 });
 
 //需要登录验证的路由名称
-const AUTH_ROUTER_NAME = ['Coupon','Order','UserInfo','OrderPay','UserAddress','AddAddress','OrderAddress','User']
+const AUTH_ROUTER_NAME = ['Coupon','Order','UserInfo','UserInfo','OrderPay','UserAddress','AddAddress','OrderAddress','User']
 //登陆验证
 router.beforeEach((to,from,next)=>{
   if(AUTH_ROUTER_NAME.includes(to.name)){

@@ -12,11 +12,11 @@
                 <div class="user-nickname" @click="$router.push('/user/info')">{{user.nickname}} <span class="level">lv{{user.level}}</span></div>
                 <div>积分：<span class="points">{{user.points}}</span></div>
             </div>
-            <div class="user-sign iconfont"><span>&#xe609;</span>签到</div>
+            <div class="user-sign iconfont" @click="$router.push('/user/sign')"><span>&#xe609;</span>签到</div>
         </div>
         <div class="order-menu-wrapper">
             <div class="order-menu">
-                <div class="title">
+                <div class="title"> 
                     我的订单
                     <router-link to="/user" class="iconfont">查看更多&#xe601;</router-link>
                 </div>
