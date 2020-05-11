@@ -5,11 +5,11 @@
         <div class="user-wrappar">
             <div class="user-avatar">
                 <img :src="user.avatar">
-                <input type="file" accept="image/*" @click="chooseAvatar">
+                <input type="file" accept="images/*" @change="chooseAvatar">
             </div>
             
             <div class="user">
-                <div class="user-nickname">{{user.nickname}} <span class="level">lv{{user.level}}</span></div>
+                <div class="user-nickname" @click="$router.push('/user/info')">{{user.nickname}} <span class="level">lv{{user.level}}</span></div>
                 <div>积分：<span class="points">{{user.points}}</span></div>
             </div>
             <div class="user-sign iconfont"><span>&#xe609;</span>签到</div>
@@ -83,6 +83,7 @@
 </div>
 </template>
 <script>
+import { mapState ,mapActions} from 'vuex'
 import CommonHeader from '@/components/Header'
 import CommonFooter from '@/components/Footer'
 import { Token } from '@/utils/token'
@@ -91,36 +92,26 @@ export default {
         CommonHeader,
         CommonFooter,
     },
-    data(){
-        return {
-            user:{}
-        }
+    computed:{
+        ...mapState(['user'])
     },
     mounted(){
-        this.getUser()
+        this.getUser(this.axios)
     },
     methods:{
-        async getUser(){
-            const token = Token.getToken()
-            const user = await this.axios.get('api/user',{
-                headers:{
-                    token
-                }
-            })
-            this.user = user
-        },
+        ...mapActions(['getUser']),
         chooseAvatar(e){
             if(e.target.files.length > 0){
-                const files = e.target.files[0]
+                const file = e.target.files[0]
                 const allowType = ['image/jpeg','image/gif','image/png','image/jpg']
-                if(!allowType.includes(files.type)){
+                if(!allowType.includes(file.type)){
                     this.$showToast({
                         message:'类型不允许'
                     })
                     return
                 }
                 const maxSize = 1024*1024
-                if(files.size > maxSize){
+                if(file.size > maxSize){
                     this.$showToast({
                         message:'图片过大'
                     })
@@ -128,12 +119,12 @@ export default {
                 }
                 const token = Token.getToken()
                 const data = new FormData()
-                data.append('image',files)
+                data.append('image',file)
                 this.$showLoading()
                 this.axios.post('api/user/avatar',data,{
                     headers:{
                         token,
-                        'Content-Type':'multipart/from-data'
+                        'Content-Type':'multipart/form-data'
                     }
                 }).then(res =>{
                     this.user.avatar = res.src

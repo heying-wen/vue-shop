@@ -5,6 +5,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import VueLazyload from 'vue-lazyload'
+import AwesomePicker from 'vue-awesome-picker';
 import Loading from './pulgin/loading'
 import Modal from './pulgin/modal'
 import Toast from './pulgin/toast'
@@ -27,6 +28,7 @@ axios.interceptors.response.use(function (response) {
 });
 Vue.use(VueAxios,axios)
 
+Vue.use(AwesomePicker)
 //图片懒加载
 Vue.use(VueLazyload,{
   loading:"./images/loading-svg/loading-spinning-bubbles.svg"
