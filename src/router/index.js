@@ -163,7 +163,7 @@ const router = new VueRouter({
 });
 
 //需要登录验证的路由名称
-const AUTH_ROUTER_NAME = ['Coupon','Order','UserInfo','UserInfo','OrderPay','UserAddress','AddAddress','OrderAddress','User']
+const AUTH_ROUTER_NAME = ['Coupon','Order','UserInfo','UserSign','OrderPay','UserAddress','AddAddress','OrderAddress','User']
 //登陆验证
 router.beforeEach((to,from,next)=>{
   if(AUTH_ROUTER_NAME.includes(to.name)){

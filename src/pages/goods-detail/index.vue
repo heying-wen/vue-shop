@@ -85,6 +85,7 @@ export default {
         this.getGoods()
         this.initScroll()
         this.initCollect()
+        this.setHistory()
         let bodyHeight = document.documentElement.offsetHeight
         let headerHeight = document.querySelector('.header-container').offsetHeight
         let footerHeight = document.querySelector('.footer').offsetHeight
@@ -99,7 +100,7 @@ export default {
                 return
             }
             this.axios.get('shose/collect/check',{
-                params:{
+                params:{ 
                     goods_id: this.id
                 },
                 headers:{
@@ -109,6 +110,16 @@ export default {
                 console.log(res)
                 this.isCollect = res.collect === 1
             })
+        },
+        async setHistory(){
+            const token  = Token.getToken()
+            if(token !== ''&& this.id > 0){
+                this.axios.post('shose/history/set',{goods_id:this.id},{
+                    headers:{
+                        token
+                    }
+                })
+            }
         },
         async collect(){
             //判断是否登录
@@ -184,7 +195,7 @@ export default {
             const cartData = {
                 id:goods.goods_id,
                 img:goods.goods_img,
-                name:goods.goods_name,
+                name:goods.goods_name,  
                 price:goods.goods_price
             }
             if(index === -1){
