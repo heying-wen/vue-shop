@@ -57,7 +57,7 @@
                 <div class="navigate-text">我的地址</div>
                 <span class="iconfont">&#xe601;</span>
             </div>
-            <div class="navigate-cell border-bottom">
+            <div class="navigate-cell border-bottom" @click="$router.push('/user/footprint')">
                 <span class="iconfont icon">&#xe655;</span>
                 <div class="navigate-text">我的足迹</div>
                 <span class="iconfont">&#xe601;</span>
