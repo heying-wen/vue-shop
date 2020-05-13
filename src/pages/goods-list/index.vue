@@ -58,14 +58,12 @@ export default {
         })
     },
     mounted(){
-        
         this.catId = this.cid
     }, 
     methods:{
         sortGoodsList(sortField){
             this.sortField = sortField
             this.resetDate()
-            this.loadMore()
         },
         resetDate(){
             this.goodsList = [],
@@ -87,7 +85,11 @@ export default {
                 return
             }
             if(this.cname !== '' && this.cid === 0){
-                const res = await this.axios.get('api/category/cid',{params:{name: this.cname}})
+                const res = await this.axios.get('api/category/cid',{
+                    params:{
+                        name: this.cname
+                    }
+                })
                 console.log(res)
                 if(res.parent){
                     this.pid = res.cat_id
