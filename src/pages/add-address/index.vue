@@ -24,7 +24,7 @@
         <div class="row border-bottom">
             <label class="title">设置为默认地址</label>
             <div class="switch-container">
-                <input type="checkbox" id="user-switch" v-model="isDefult">
+                <input type="checkbox" id="user-switch" v-model="isDefault">
                 <label for="user-switch"></label>
             </div>
         </div>
@@ -50,11 +50,6 @@ export default {
         CommonHeader,
         VDistpicker
     },
-    beforeRouteEnter (to,from,next) {
-        next(vm => {
-            vm.backUrl = to.query.url || from.path
-        })
-    },
     data(){
         return{
             backUrl:'',
@@ -65,7 +60,8 @@ export default {
             name:'',
             phone:'',
             address:'',
-            isDefult:false,
+            isDefault:false,
+            addressId:0,
         }
     },
     computed:{
@@ -77,7 +73,39 @@ export default {
             }
         }
     },
+    mounted () {
+        const addressId = this.$route.query.id || 0
+        this.addressId = parseInt(addressId)
+        if(this.addressId>0){
+            this.backUrl = '/user/address'
+        }else{
+            this.backUrl = '/order'
+        }
+        this.getAddress()
+    },
     methods:{
+        async getAddress(){
+            if(this.addressId <= 0){
+                return
+            }
+            const token =Token.getToken()
+            const res = await this.axios.get('shose/address',{
+                params:{
+                    id:this.addressId
+                },
+                headers:{
+                    token
+                }
+            }).then(res =>res.address)
+            console.log(res)
+            this.name =res.name
+            this.phone = res.phone
+            this.address = res.address
+            this.province = res.province
+            this.city = res.city
+            this.area = res.area
+            this.isDefault = res.is_default === 1
+        },
         saveAddress(){
              const data = {
                 name :this.name,
@@ -86,10 +114,9 @@ export default {
                 city :this.city,
                 area :this.area,
                 address :this.address,
-                is_defalut :this.isDefult ? 1 : 0 
+                is_default :this.isDefault ? 1 : 0 
             }
             const res = validate(data,addressVaildate)
-            const token =Token.getToken()
             if(res.error !== 0){
                 this.$showToast({
                     message: res.message
@@ -97,16 +124,34 @@ export default {
                 return
             }
             this.$showLoading()
-            this.axios.post('shose/address/add',data,{
+            const token =Token.getToken()
+            let url
+            if(this.addressId> 0){
+                url = 'shose/address/update'
+                data.id = this.addressId
+            }else{
+                url = 'shose/address/add'
+            }
+            this.axios.post(url,data,{
                 headers:{
                     token
                 }
             }).then((res)=>{
                 // const addressId = res.address_id
                 // this.$router.push(this.backUrl+'?selectAddressId='+addressId)
-                data.id = res.address_id
-                Storage.setItem('address',data)
-                this.$router.push('/order')
+                if(this.addressId >0){
+                    this.$showToast({
+                        message:'修改成功',
+                        callback:()=>{
+                            this.$router.replace('/user/address')
+                        }
+                    })
+                }else{
+                    data.id = res.address_id
+                    Storage.setItem('address',data)
+                    this.$router.push('/order')
+                }
+               
             }).catch(err =>{
                 this.$showToast({
                     message:err.message

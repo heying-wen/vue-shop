@@ -1,7 +1,7 @@
 <template>
 <div class="page" ref="page">
-     <common-header title="我的足迹" back="/user"></common-header>
-     <div class="history-time-container">
+    <common-header title="我的足迹" back="/user"></common-header>
+    <div class="history-time-container">
         <div class="history-time">
             <div class="history-time-cell" v-for="(item,index) of historyDays" :key="item.day">
                 <div class="week" >{{item.week}}</div>

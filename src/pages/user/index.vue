@@ -52,7 +52,7 @@
                 <div class="navigate-text">我的收藏</div>
                 <span class="iconfont">&#xe601;</span>
             </div>
-            <div class="navigate-cell border-bottom">
+            <div class="navigate-cell border-bottom" @click="$router.push('/user/address')">
                 <span class="iconfont icon">&#xe64e;</span>
                 <div class="navigate-text">我的地址</div>
                 <span class="iconfont">&#xe601;</span>
@@ -62,7 +62,7 @@
                 <div class="navigate-text">我的足迹</div>
                 <span class="iconfont">&#xe601;</span>
             </div>
-            <div class="navigate-cell border-bottom">
+            <div class="navigate-cell border-bottom" @click="$router.push('/user/coupon')">
                 <span class="iconfont icon">&#xe60a;</span>
                 <div class="navigate-text">我的卡券</div>
                 <span class="iconfont">&#xe601;</span>

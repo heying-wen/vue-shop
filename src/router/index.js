@@ -13,12 +13,14 @@ import User from "../pages/user/index.vue";
 import UserAddress from "../pages/user-address/index.vue";
 import UserInfo from "../pages/user-info/index.vue";
 import UserSign from "../pages/user-sign/index.vue";
+import UserCoupon from "../pages/user-coupon/index.vue";
 import UserFootprint from "../pages/user-footprint/index.vue";
 import AddAddress from "../pages/add-address/index.vue";
 import Order from "../pages/order/index.vue";
 import OrderAddress from "../pages/order-address/index.vue";
 import OrderPay from "../pages/order-pay/index.vue";
 import { Token } from "../utils/token"
+import config from './config'
 
 Vue.use(VueRouter);
 
@@ -134,6 +136,11 @@ const routes = [
     component: UserSign,
   },
   {
+    path:'/user/coupon',
+    name: "UserCoupon",
+    component: UserCoupon,
+  },
+  {
     path:'/user/footprint',
     name: "UserFootprint",
     component: UserFootprint,
@@ -169,10 +176,9 @@ const router = new VueRouter({
 });
 
 //需要登录验证的路由名称
-const AUTH_ROUTER_NAME = ['Coupon','Order','UserFootprint','UserInfo','UserSign','OrderPay','UserAddress','AddAddress','OrderAddress','User']
 //登陆验证
 router.beforeEach((to,from,next)=>{
-  if(AUTH_ROUTER_NAME.includes(to.name)){
+  if(Array.isArray(config.authRoute)&&config.authRoute.includes(to.name)){
     const token  = Token.getToken()
     if(token === ''){
       let url
