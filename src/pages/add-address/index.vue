@@ -62,6 +62,7 @@ export default {
             address:'',
             isDefault:false,
             addressId:0,
+            t:0,
         }
     },
     computed:{
@@ -74,6 +75,7 @@ export default {
         }
     },
     mounted () {
+        this.t = parseInt(this.$route.query.t || 0)
         const addressId = this.$route.query.id || 0
         this.addressId = parseInt(addressId)
         if(this.addressId>0){
@@ -137,19 +139,26 @@ export default {
                     token
                 }
             }).then((res)=>{
-                // const addressId = res.address_id
-                // this.$router.push(this.backUrl+'?selectAddressId='+addressId)
                 if(this.addressId >0){
                     this.$showToast({
                         message:'修改成功',
                         callback:()=>{
+                            const address = Storage.getItem('address') || {}
+                            if(Object.keys(address).length >0 &&parseInt(address.id) === this.addressId){
+                                Storage.setItem('address',data)
+                            }
                             this.$router.replace('/user/address')
                         }
                     })
                 }else{
-                    data.id = res.address_id
-                    Storage.setItem('address',data)
-                    this.$router.push('/order')
+                    if(this.t === 1){
+                        this.$router.replace('/user/address')
+                    }else{
+                        data.id = parseInt(res.address_id)
+                        Storage.setItem('address',data)
+                        this.$router.push('/order')
+                    }
+                    
                 }
                
             }).catch(err =>{

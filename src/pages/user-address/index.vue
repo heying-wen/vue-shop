@@ -20,13 +20,13 @@
                     默认地址
                 </div>
                 <div class="edit-address">
-                    <span class="iconfont" @click="$router.push('/user/add-address?id=' + item.id)">&#xe64c; 编辑</span>
+                    <span class="iconfont" @click="$router.push(`/user/add-address?id=${item.id}&t=1`)">&#xe64c; 编辑</span>
                     <span class="iconfont" @click="deleteAddress(item.id)">&#xe625; 删除</span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="add-address" v-if="showAddAddress" @click="$router.push(`/order/address?url=${backUrl}`)">
+    <div class="add-address" v-if="showAddAddress" @click="$router.push(`/user/add-address?t=1`)">
         <span class="iconfont">&#xe624;</span> 
         添加新地址
     </div>
@@ -35,6 +35,7 @@
 <script>
 import CommonHeader from '@/components/Header'
 import {Token} from '@/utils/token'
+import { Storage } from '@/utils/storage'
 const MAX_ADDRESS_NUM = 10
 export default {
     components:{
@@ -115,6 +116,10 @@ export default {
                             })
                             const index = this.address.findIndex(item => item.id ===addressId)
                             this.address.splice(index,1)
+                            const address = Storage.getItem('address') || {}
+                            if(Object.keys(address).length >0 &&parseInt(address.id) === addressId){
+                                Storage.deleteItem('address')
+                            }
                         }).catch(err=>{
                             this.$showToast({
                                 message:err.message
