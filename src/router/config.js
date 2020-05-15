@@ -8,6 +8,7 @@ const AUTH_ROUTER_NAME = [
     'UserCoupon',
     'UserInfo',
     'UserSign',
+    'UserOrder',
     'UserAddress',
     'AddAddress',]
 export default {

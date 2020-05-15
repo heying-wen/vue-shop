@@ -21,18 +21,19 @@
                     <router-link to="/user" class="iconfont">查看更多&#xe601;</router-link>
                 </div>
                 <div class="menu-list">
-                    <div class="menu-cell">
+                    <div class="menu-cell" @click="toUserOrder(1)">
                         <span class="iconfont">&#xe63e;</span>
                         待付款
                     </div>
-                    <div class="menu-cell">
+                    <div class="menu-cell" @click="toUserOrder(2)">
                         <span class="iconfont">&#xe629;</span>
                         待发货
-                    </div><div class="menu-cell">
+                    </div>
+                    <div class="menu-cell" @click="toUserOrder(3)">
                         <span class="iconfont">&#xe661;</span>
                         待收货
                     </div>
-                    <div class="menu-cell">
+                    <div class="menu-cell" @click="toUserOrder(4)">
                         <span class="iconfont">&#xe754;</span>
                         已完成
                     </div>

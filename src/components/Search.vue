@@ -1,5 +1,5 @@
 <template>
-<div class="search">
+<div class="search" @click="$router.push('/search')">
     <div class="search-bac">
         <span class="iconfont">&#xe60d;</span>
         {{placeHolder}}
