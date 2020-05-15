@@ -18,7 +18,7 @@
             <div class="order-menu">
                 <div class="title"> 
                     我的订单
-                    <router-link to="/user" class="iconfont">查看更多&#xe601;</router-link>
+                    <span  @click="toUserOrder()" class="iconfont">查看更多&#xe601;</span> 
                 </div>
                 <div class="menu-list">
                     <div class="menu-cell" @click="toUserOrder(1)">
@@ -101,6 +101,9 @@ export default {
     },
     methods:{
         ...mapActions(['getUser']),
+        toUserOrder(status = -1){
+            this.$router.push('/user/order?status='+ status)
+        },
         chooseAvatar(e){
             if(e.target.files.length > 0){
                 const file = e.target.files[0]
