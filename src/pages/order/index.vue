@@ -88,17 +88,20 @@ export default {
             });
         }, 
         initCart(){ 
-            let cartAll = Storage.getItem('cart')
+            //是否是立即购买
+            const buy =  parseInt(this.$route.query.buy || 0)
             let total = 0
             let cartNum = 0
             let cart = []
-            cartAll.map( item => {
-                if(item.selected){
-                    total +=item.buyNumber * item.price
-                    cartNum++
-                    cart.push(item)
+            if(buy===1){
+                const buyCart = this.$store.state.buyCart
+                if(Object.keys(buyCart).length > 0){
+                    cart.push(buyCart)
                 }
-            })
+            }else{
+                let cartAll = Storage.getItem('cart')
+                cartAll.map( item => {item.selected})
+            }
             if(cart.length === 0){
                 this.$showToast({
                     message:'至少有一个商品',
@@ -108,6 +111,10 @@ export default {
                 })
                 return
             }
+            cart.forEach(item=>{
+                total +=item.buyNumber * item.price
+                cartNum++
+            })
             this.cart = cart
             this.total = total
             this.cartNum = cartNum

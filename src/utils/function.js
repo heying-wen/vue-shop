@@ -42,13 +42,38 @@ return {error: 0}
 }
 
 const getOrderStatus = function(status){
-  const {order:{status:statusOptions}} = config
+  const statusOptions = getConfig('order.status')
   return statusOptions[status] || ''
+}
+
+// const getConfig = function (name){
+//   if(name.includes('.')){
+//     const k1 = name.slice(0,name.indexOf('.'))
+//     const s1 = name.slice(name.indexOf('.')+1)
+//     const r1 = config[k1]
+//     const k2 = s1.slice(0,s1.indexOf('.'))
+//     const s2 = s1.slice(s1.indexOf('.')+1)
+//     const r2 = r1[k2]
+//     const r3 = r2[s2]
+//     console.log(k1,s1,r1,k2,s2,r2,r3)
+//   }else{
+//     return config[name]
+//   }
+// }
+const getConfig = function (name, arr = config) {
+  if (name.includes('.')) {
+    const k1 = name.slice(0,name.indexOf('.'))
+    const s1 = name.slice(name.indexOf('.')+1)
+    return getConfig(s1, arr[k1]) 
+  } else {
+    return arr[name]
+  }
 }
 
 export{
     formatPrice,
     dateFormat,
     validate,
-    getOrderStatus
+    getOrderStatus,
+    getConfig
 }

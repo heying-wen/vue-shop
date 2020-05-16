@@ -29,7 +29,7 @@ router.beforeEach((to,from,next)=>{
       if(to.query.loginRedirect){
         url = decodeURIComponent(to.query.loginRedirect)
       }else{
-        url= encodeURIComponent(to.path)
+        url= encodeURIComponent(to.fullPath)
       }
       console.log(url)
       next(`/login?url=${url}`)

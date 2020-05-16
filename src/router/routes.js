@@ -76,6 +76,24 @@ const routes = [
       component: () => import ('../pages/order-address/index.vue'),
     },
     {
+      path: "/order-detail/:id",
+      beforeEnter(to,from,next){
+        const id = to.params.id
+        if(!/^\d+$/.test(id)){
+          next(from.path)
+        }else{
+          next()
+        } 
+      },
+      props:route =>{ 
+        return {
+          id : parseInt(route.params.id)
+        }
+      },
+      name: "OrderDetail",
+      component: () => import ('../pages/order-detail/index.vue'),
+    }, 
+    {
       path:'/order/pay',
       beforeEnter(to,from,next){
         const id = to.query.id

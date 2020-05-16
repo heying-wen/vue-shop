@@ -12,4 +12,7 @@ export default{
             commit('setUser',user)
         }
     },
+    setBuyCart({commit},data){
+        commit('setBuyCart',data)
+    }
 }

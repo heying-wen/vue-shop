@@ -3,6 +3,7 @@ const AUTH_ROUTER_NAME = [
     'Order',
     'OrderPay',
     'OrderAddress',
+    'OrderDetail',
     'User',
     'UserFootprint',
     'UserCoupon',

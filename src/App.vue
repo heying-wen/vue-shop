@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-(function(doc, win) {
+function fn1(doc, win) {
   var docEl = doc.documentElement,
     resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
     recalc = function() {
@@ -17,7 +17,8 @@
   if (!doc.addEventListener) return;
   win.addEventListener(resizeEvt, recalc, false);
   doc.addEventListener('DOMContentLoaded', recalc, false);
-})(document, window);
+}
+fn1(document, window);
 // document.addEventListener('DOMContentLoaded', () => {
 //   const html = document.querySelector('html')
 //   const fontSize = window.innerWidth / 7.5
