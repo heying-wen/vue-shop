@@ -43,12 +43,12 @@
     </div>
     <div class="navigate-wrapper">
         <div class="navigate">
-            <div class="navigate-cell border-bottom">
+            <div class="navigate-cell border-bottom" @click="$router.push('/user/notice')">
                 <span class="iconfont icon">&#xe608;</span>
                 <div class="navigate-text">我的消息</div>
                 <span class="iconfont">&#xe601;</span>
             </div>
-            <div class="navigate-cell border-bottom">
+            <div class="navigate-cell border-bottom" @click="$router.push('/user/collect')">
                 <span class="iconfont icon">&#xe662;</span>
                 <div class="navigate-text">我的收藏</div>
                 <span class="iconfont">&#xe601;</span>
@@ -68,12 +68,12 @@
                 <div class="navigate-text">我的卡券</div>
                 <span class="iconfont">&#xe601;</span>
             </div>
-            <div class="navigate-cell border-bottom">
+            <div class="navigate-cell border-bottom" @click="$router.push('/user/points')">
                 <span class="iconfont icon">&#xe64b;</span>
                 <div class="navigate-text">我的积分</div>
                 <span class="iconfont">&#xe601;</span>
             </div>
-            <div class="navigate-cell border-bottom">
+            <div class="navigate-cell border-bottom" @click="logout">
                 <span class="iconfont icon">&#xe623;</span>
                 <div class="navigate-text">退出系统</div>
                 <span class="iconfont">&#xe601;</span>
@@ -140,6 +140,10 @@ export default {
                     this.$hideLoading()
                 })
             }
+        },
+        logout(){
+            Token.deleteToken()
+            this.$router.replace('/')
         }
     }
 }

@@ -48,7 +48,7 @@ export default {
                     token
                 }
             }).then(res=>res.coupon)
-            const statusOPtions = ['','优惠折扣','已经使用','已经失效']
+            const statusOPtions = ['','优惠折扣','已经失效','已经使用',]
             this.coupon = coupon.map(item =>{
                 let status = 0
                 if(item.is_use === 1){
@@ -99,6 +99,7 @@ export default {
             &.coupon-bg2{
                 background: url('~@/assets/images/user-coupon-bg2.png');
                 background-size: contain;
+                opacity: .5;
                 .coupon-status{
                     color:#ff7c76 ;
                 }

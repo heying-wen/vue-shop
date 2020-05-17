@@ -50,8 +50,16 @@ export default {
             selectCouponId:0,
             total:0,
             cartNum:0,
-            actualPayment:0
+            actualPayment:0,
+            isQuickBuy:0,
         }
+    },
+    beforRouterLeave(to,from,next){
+        if(this.this.isQuickBuy === 1){
+            this.$store.dispatch('setBuyCart',null)
+        }
+        next()
+
     },
     async mounted (){
         this.addressId = this.$route.query.selectAddressId || 0
@@ -100,7 +108,7 @@ export default {
                 }
             }else{
                 let cartAll = Storage.getItem('cart')
-                cartAll.map( item => {item.selected})
+                cart = cartAll.filter( item => {item.selected})
             }
             if(cart.length === 0){
                 this.$showToast({
@@ -199,15 +207,19 @@ export default {
                 })
                 if(res.pass){
                     //删除已购买商品
-                    const cartAll = Storage.getItem('cart')
-                    const cart = cartAll.filter(item =>{
-                        const index = this.cart.findIndex(val => item.id ===val.id)
-                        return index === -1
-                    })
-                    if(cart.length > 0){
-                        Storage.setItem('cart',cart)
+                    if(this.this.isQuickBuy === 1){
+                        this.$store.dispatch('setBuyCart',null)
                     }else{
-                        Storage.deleteItem('cart')
+                        const cartAll = Storage.getItem('cart')
+                        const cart = cartAll.filter(item =>{
+                            const index = this.cart.findIndex(val => item.id ===val.id)
+                            return index === -1
+                        })
+                        if(cart.length > 0){
+                            Storage.setItem('cart',cart)
+                        }else{
+                            Storage.deleteItem('cart')
+                        }
                     }
                     //清空优惠券信息
                     Storage.deleteItem('userCoupon')

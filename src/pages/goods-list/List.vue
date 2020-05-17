@@ -1,6 +1,6 @@
 <template>
 <div class="goods-list">
-    <div class="list-item" v-for="item of list" :key="item.id">
+    <router-link tag="div" :to="`/goods-detail/${item.id}`" class="list-item" v-for="item of list" :key="item.id">
         <img class="goods-img" :src="item.img">
         <div class="list-container">
             <span class="goods-name">{{item.name}}</span>
@@ -8,7 +8,7 @@
             <span class="goods">{{item.sale_num}}人购买</span>
             <cart-btn :goods="item"></cart-btn>
         </div>
-    </div>
+    </router-link>
 </div>
 </template>
 <script>

@@ -10,6 +10,9 @@ const AUTH_ROUTER_NAME = [
     'UserInfo',
     'UserSign',
     'UserOrder',
+    'UserCollect',
+    'UserNotice',
+    'UserPoints',
     'UserAddress',
     'AddAddress',]
 export default {

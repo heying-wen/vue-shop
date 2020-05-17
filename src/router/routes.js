@@ -134,6 +134,21 @@ const routes = [
       component: () => import ('../pages/user-info/index.vue'),
     },
     {
+      path:'/user/collect',
+      name: "UserCollect",
+      component: () => import ('../pages/user-collect/index.vue'),
+    },
+    {
+      path:'/user/notice',
+      name: "UserNotice",
+      component: () => import ('../pages/user-notice/index.vue'),
+    },
+    {
+      path:'/user/points',
+      name: "UserPoints",
+      component: () => import ('../pages/user-points/index.vue'),
+    },
+    {
         path:'/user/order',
         name: "UserOrder",
         component: () => import ('../pages/user-order/index.vue'),

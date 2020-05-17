@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <keep-alive>
+    <!-- <keep-alive exclude="goodsCategory">
       <router-view />
-    </keep-alive>
+    </keep-alive> -->
+    <router-view />
   </div>
 </template>
 <script>

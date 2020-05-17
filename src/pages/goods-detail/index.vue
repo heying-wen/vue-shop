@@ -148,12 +148,12 @@ export default {
             }
             this.$showLoading() 
             await this.axios.post(path, {goods_id: this.id},{
-                    headers:{
-                        token
-                    }
-                })
-                this.$hideLoading()
-                this.isCollect = !this.isCollect
+                headers:{
+                    token
+                }
+            })
+            this.$hideLoading()
+            this.isCollect = !this.isCollect
         },
         changeTab(tabName){
             this.scrollTab = tabName

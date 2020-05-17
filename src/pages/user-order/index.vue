@@ -74,7 +74,6 @@ export default {
     },
     mounted () {
         this.status = parseInt(this.$route.query.status || -1)
-
     },
     methods: {
         tabOrder(status){
