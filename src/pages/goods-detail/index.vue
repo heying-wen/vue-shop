@@ -115,7 +115,6 @@ export default {
                     token
                 }
             }).then(res => {
-                console.log(res)
                 this.isCollect = res.collect === 1
             })
         },
@@ -172,7 +171,6 @@ export default {
                     this.headerOpacity = headerOpacity > 1 ? 1 : headerOpacity
                     if(y > 50){
                         this.showIconMenu = false
-                        this.headerOpacity = headerOpacity
                     }else{
                         this.showIconMenu = true
                     }

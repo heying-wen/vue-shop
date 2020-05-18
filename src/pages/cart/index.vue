@@ -4,7 +4,7 @@
     <div class="cart-list">
         <div v-for="item of cart" :key="item.id" :class="{'delete-style':item.delete}" class="cart-item border-bottom" :data-goods-id="item.id" @touchstart="touchStart" @touchend="touchEnd">
             <input type="checkbox" class="checkbox" :checked="item.selected"  @click="toggleSelect(item.id)">
-            <img class="goods-img" :src="item.img" >
+            <img class="goods-img" :src="item.img" @click="toGoodsDetail(item.id)">
             <div class="goods-item">
                 <div class="goods-name">{{item.name}}</div>
                 <div class="goods-price">￥{{item.price}}</div>
@@ -64,10 +64,15 @@ export default {
     methods :{
         submitCart(){
             if(this.cartNum === 0){
-                this.$showToast('至少选择一个商品')
+                this.$showToast({
+                    message:'至少选择一个商品'
+                })
                 return
             }
             this.$router.push('/order?loginRedirect=' + encodeURIComponent('/order'))
+        },
+        toGoodsDetail(goodsId){
+            this.$router.push(`/goods-detail/${goodsId}`)
         },
         touchStart(event){
             touchStartX = event.changedTouches[0].clientX

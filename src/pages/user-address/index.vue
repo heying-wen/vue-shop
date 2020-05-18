@@ -58,7 +58,6 @@ export default {
                     token:USER_TOKEN
                 }
             }).then(res => res.address)
-            console.log(this.address)
             this.showAddAddress = (MAX_ADDRESS_NUM -this.address.length) > 0
         },
         setDefaultAddress(addressId,isDefault){

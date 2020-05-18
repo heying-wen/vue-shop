@@ -97,20 +97,21 @@ export default {
         }, 
         initCart(){ 
             //是否是立即购买
-            const buy =  parseInt(this.$route.query.buy || 0)
+            this.buy =  parseInt(this.$route.query.buy || 0)
             let total = 0
             let cartNum = 0
             let cart = []
-            if(buy===1){
+            if(this.buy===1){
                 const buyCart = this.$store.state.buyCart
                 if(Object.keys(buyCart).length > 0){
                     cart.push(buyCart)
                 }
             }else{
                 let cartAll = Storage.getItem('cart')
-                cart = cartAll.filter( item => {item.selected})
+                cart = cartAll.filter( item => item.selected)
             }
             if(cart.length === 0){
+                console.log(cart.length)
                 this.$showToast({
                     message:'至少有一个商品',
                     callback: () =>{

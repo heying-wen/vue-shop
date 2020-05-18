@@ -173,7 +173,7 @@ export default {
         async loadMore(){
             if(this.totalPage ===0 || this.totalPage <= this.page){
                 this.$showToast({
-                    messade:'亲，已经到底了！'
+                    message:'亲，已经到底了！'
                 })
                 return
             }

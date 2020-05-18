@@ -90,7 +90,6 @@ export default {
                         name: this.cname
                     }
                 })
-                console.log(res)
                 if(res.parent){
                     this.pid = res.cat_id
                 }else{

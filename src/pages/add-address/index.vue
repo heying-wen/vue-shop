@@ -76,9 +76,8 @@ export default {
     },
     mounted () {
         this.t = parseInt(this.$route.query.t || 0)
-        const addressId = this.$route.query.id || 0
-        this.addressId = parseInt(addressId)
-        if(this.addressId>0){
+        this.addressId = parseInt(this.$route.query.id || 0)
+        if(this.t > 0){
             this.backUrl = '/user/address'
         }else{
             this.backUrl = '/order'
