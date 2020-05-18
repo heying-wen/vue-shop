@@ -16,7 +16,7 @@
             <span class="iconfont">&#xe6b7;</span>
         </div>
     </div>
-    <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="50">
+    <div v-infinite-scroll="loadMore" :infinite-scroll-immediate-check="true" infinite-scroll-disabled="busy" infinite-scroll-distance="50">
         <list :list="goodsList"></list>
     </div>
 </div>
@@ -58,18 +58,21 @@ export default {
         })
     },
     mounted(){
+        // document.querySelector('.page').style.minHeight = document.documentElement.offsetHeight + 'px'
+        // document.body.scrollTop = 0
         this.catId = this.cid
+        this.loadMore()
     }, 
     methods:{
         sortGoodsList(sortField){
             this.sortField = sortField
             this.resetDate()
+            this.loadMore()
         },
         resetDate(){
-            this.goodsList = [],
-            this.page = 1,
-            this.totalPage = 0,
-            this.busy = false
+            this.goodsList = []
+            this.page = 1
+            this.totalPage = 0
             if(this.sortField !== 'goods_price'){
                 this.sortType = ''
             }else{
@@ -81,10 +84,11 @@ export default {
             }
         },
         async getCidByCname (){
-            if(this.catId > 0 || this.pid > 0){
-                return
-            }
+            
             if(this.cname !== '' && this.cid === 0){
+                if(this.catId > 0 || this.pid > 0){
+                    return
+                }
                 const res = await this.axios.get('api/category/cid',{
                     params:{
                         name: this.cname
@@ -114,13 +118,14 @@ export default {
             if(this.page === 1){
                 this.totalPage = Math.ceil(total/this.count)
             }
-            this.page++
+            
         },
         async loadMore(){
             await this.getCidByCname()
             this.busy = true
             if(this.page <= this.totalPage || this.totalPage === 0){
                 await this.getGoodsList()
+                this.page++
                 this.busy =false
             }
         }

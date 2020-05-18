@@ -11,6 +11,11 @@ const routes = [
       component: () => import ('../pages/category/index.vue')
     }, 
     {
+      path: "/text",
+      name: "Text",
+      component: () => import ('../pages/text/index.vue')
+    }, 
+    {
       path: "/cart",
       name: "Cart",
       component: () => import ('../pages/cart/index.vue')
