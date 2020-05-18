@@ -55,7 +55,6 @@ export default {
             })
             this.$hideLoading()
             this.list = this.list.concat(list)
-            console.log(this.list)
             if(this.list.length === 0){
                 this.totalPage = -1
             }else{
@@ -91,7 +90,7 @@ export default {
         box-sizing: border-box;
         .notice{
             width: 100%;
-            margin-top: .3rem;
+            margin: .3rem 0;
             .notice-time{
                 width: 100%;
                 height: .4rem;

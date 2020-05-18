@@ -115,13 +115,8 @@ export default {
                 }
                 return item
             })
-            
             this.signDays = signDays
             this.userLevel = res.user
-
-            console.log(res)
-            console.log(signDays)
-            console.log(this.userLevel)
         }
     }
 }

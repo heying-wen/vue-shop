@@ -60,7 +60,7 @@ export default {
     methods:{
         tabChange(status){
             this.status = status
-            this.orders = []
+            this.list = []
             this.page = 1
             this.totalPage = 0
             this.busy = false
@@ -72,7 +72,7 @@ export default {
                 params: {
                     page: this.page,
                     count: this.count,
-                    type:this.type
+                    type:this.status
                 },
                 headers:{
                     token
@@ -80,7 +80,6 @@ export default {
             })
             this.$hideLoading()
             this.list = this.list.concat(list)
-            console.log(this.list)
             if(this.list.length === 0){
                 this.totalPage = -1
             }else{
